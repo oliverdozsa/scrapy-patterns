@@ -11,6 +11,6 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - pytest --cov-config .coveragerc --cov=scrapy_patterns tests/
+  - pytest --cov-report=xml --cov-config .coveragerc --cov=scrapy_patterns tests/
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
