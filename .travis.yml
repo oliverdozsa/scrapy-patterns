@@ -1,0 +1,16 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=7a4dc1b40536e211ee22f1c989b0023984c4a078d860af615b10616d00dddb94
+language: python
+python:
+  - "3.6"
+install:
+  - pip install -r requirements-test.txt
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - pytest --cov=scrapy_patterns tests/
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
