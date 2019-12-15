@@ -1,9 +1,9 @@
 import logging
 from typing import List, Union, Tuple
 
-from scrapy import Spider, Item
+from scrapy import Spider, Item, signals, exceptions
 from scrapy.http import Response
-from recipes_scraper.patterns.request_factory import RequestFactory
+from scrapy_patterns.request_factory import RequestFactory
 
 
 class ItemParser:
@@ -49,6 +49,7 @@ class SitePager:
         self.__on_page_finished_callback = on_page_finished_callback
         self.__site_page_parsers = site_page_parsers
         self.name = spider.name
+        spider.crawler.signals.connect(self.__spider_idle, signal=signals.spider_idle)
 
     def create_start_request(self):
         return self.__request_factory.create(self.__start_page_url, self.__process_page)
@@ -96,10 +97,6 @@ class SitePager:
     def __process_item_failure(self, _):
         self.logger.warning("[%s] Failed to get an item!", self.__spider.name)
         self.__num_of_items_failed += 1
-        next_req = self.__on_item_event()
-        if next_req:
-            # Error callback returns are ignored, therefore the request has to be manually inserted.
-            self.__spider.crawler.engine.crawl(next_req, self)
 
     def __on_item_event(self):
         total = self.__num_of_items
@@ -120,3 +117,12 @@ class SitePager:
                 self.logger.info("[%s] No more pages.", self.__spider.name)
                 return self.__on_paging_finished_callback()
         return None
+
+    def __spider_idle(self, spider):
+        # It happens when the last item request fails.
+        self.logger.warning("Got spider idle!")
+        next_req = self.__on_item_event()
+        if next_req:
+            # Error callback returns are ignored, therefore the request has to be manually inserted.
+            self.__spider.crawler.engine.crawl(next_req, self)
+            raise exceptions.DontCloseSpider
