@@ -1,10 +1,10 @@
 from typing import List, Optional
 from scrapy import Spider
-from recipes_scraper.patterns.spiders.private.category_based_spider_state import CategoryBasedSpiderState
-from recipes_scraper.patterns.request_factory import RequestFactory
-from recipes_scraper.patterns.spiderlings.site_structure_discoverer import SiteStructureDiscoverer, CategoryParser
-from recipes_scraper.patterns.spiderlings.site_pager import SitePager, SitePageParsers
-from recipes_scraper.patterns.site_structure import VisitState, Node
+from scrapy_patterns.spiders.private.category_based_spider_state import CategoryBasedSpiderState
+from scrapy_patterns.request_factory import RequestFactory
+from scrapy_patterns.spiderlings.site_structure_discoverer import SiteStructureDiscoverer, CategoryParser
+from scrapy_patterns.spiderlings.site_pager import SitePager, SitePageParsers, SitePageCallbacks
+from scrapy_patterns.site_structure import VisitState, Node
 
 
 class CategoryBasedSpider(Spider):
@@ -25,13 +25,12 @@ class CategoryBasedSpider(Spider):
             self.request_factory = request_factory
         self.__category_selectors = category_selectors
         self.__spider_state = CategoryBasedSpiderState(self.name, progress_file_dir)
-        self.__site_pager: Optional[SitePager] = None
+        self.__site_pager: SitePager = self.__create_site_pager()
         self.__site_page_parsers = site_page_parsers
 
     def start_requests(self):
         if self.__spider_state.is_loaded:
-            self.__site_pager = self.__create_site_pager(self.__spider_state.current_page_url)
-            yield self.__site_pager.create_start_request()
+            yield self.__site_pager.start(self.__spider_state.current_page_url)
         else:
             site_discoverer = SiteStructureDiscoverer(self.name, self.start_url, self.__category_selectors,
                                                       self.request_factory, self._on_site_structure_discovery_complete)
@@ -46,9 +45,9 @@ class CategoryBasedSpider(Spider):
         self.__spider_state.save()
         return self.__progress_to_next_category()
 
-    def __create_site_pager(self, start_url: str) -> SitePager:
-        return SitePager(start_url, self, self.request_factory, self.__site_page_parsers,
-                         self.__on_paging_finished, self.__on_page_finished)
+    def __create_site_pager(self) -> SitePager:
+        callbacks = SitePageCallbacks(self.__on_paging_finished, self.__on_page_finished)
+        return SitePager(self, self.request_factory, self.__site_page_parsers, callbacks)
 
     def __on_page_finished(self, next_page_url):
         # Category is not changed when a page is finished.
@@ -68,12 +67,11 @@ class CategoryBasedSpider(Spider):
         next_category = self.__spider_state.site_structure.find_leaf_with_visit_state(VisitState.NEW)
         if next_category:
             next_category.set_visit_state(VisitState.IN_PROGRESS, propagate=True)
-            self.__site_pager = self.__create_site_pager(next_category.url)
             self.__spider_state.current_page_url = next_category.url
             self.__spider_state.current_page_site_path = next_category.get_path()
             self.__spider_state.save()
             self.__spider_state.log()
-            return self.__site_pager.create_start_request()
+            return self.__site_pager.start(next_category.url)
         return None
 
     @staticmethod

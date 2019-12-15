@@ -2,7 +2,7 @@ import os
 import json
 import logging
 from typing import Optional
-from recipes_scraper.patterns.site_structure import SiteStructure
+from scrapy_patterns.site_structure import SiteStructure
 
 
 class CategoryBasedSpiderState:

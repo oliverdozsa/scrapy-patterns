@@ -3,8 +3,8 @@ from typing import List, Tuple
 
 from scrapy.http import Response
 
-from recipes_scraper.patterns.request_factory import RequestFactory
-from recipes_scraper.patterns.site_structure import SiteStructure
+from scrapy_patterns.request_factory import RequestFactory
+from scrapy_patterns.site_structure import SiteStructure
 
 
 class CategoryParser:
