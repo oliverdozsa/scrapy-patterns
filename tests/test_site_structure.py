@@ -97,13 +97,15 @@ def test_to_string():
     """Tests that to string works as expected"""
     structure = __create_test_structure()
     structure_str = str(structure)
-    assert "(root) root_name" in structure_str
-    assert "animals" in structure_str
-    assert "fish" in structure_str
-    assert "salmon" in structure_str
-    assert "insect" in structure_str
-    assert "plant" in structure_str
-    assert "carrot" in structure_str
+    expected_str = "" \
+                   "(root) root_name\n" \
+                   "├── [NEW] animals (animals_url)\n" \
+                   "|   ├── [NEW] fish (fish_url)\n" \
+                   "|   |   └── [NEW] salmon (salmon_url)\n" \
+                   "|   └── [NEW] insect (insect_url)\n" \
+                   "└── [NEW] plants (plant_url)\n" \
+                   "    └── [NEW] carrot (carrot_url)"
+    assert expected_str == structure_str
 
 
 def test_get_path():

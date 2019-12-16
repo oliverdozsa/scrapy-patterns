@@ -214,23 +214,48 @@ class SiteStructure:
     def __split_path(path):
         return path.split("/")
 
+    def __create_log_msg_records(self, node: Node, prefix=""):
+        records = []
+        is_root = node.parent is None
+        has_sibling = self.__has_sibling(node)
+        node_prefix = self.__create_node_prefix(is_root, has_sibling)
+        node_prefix = prefix + node_prefix
+        log_msg_record = self.__create_single_log_msg_record(node, node_prefix)
+        records.append(log_msg_record)
+        carry_on_prefix = self.__create_carry_on_prefix(is_root, has_sibling)
+        carry_on_prefix = prefix + carry_on_prefix
+        for child in node.children:
+            records.extend(self.__create_log_msg_records(child, carry_on_prefix))
+        return records
+
+    @staticmethod
+    def __create_single_log_msg_record(node, node_prefix):
+        is_root = node.parent is None
+        if is_root:
+            return node.name
+        else:
+            return "%s[%s] %s (%s)" % (node_prefix, node.visit_state.name, node.name, node.url)
+
     @staticmethod
     def __has_sibling(child):
         if child and child.parent:
             return child.parent.children[-1].name != child.name
         return None
 
-    def __create_log_msg_records(self, node: Node, prefix=""):
-        records = []
-        is_root = node.parent is None
-        has_sibling = self.__has_sibling(node)
-        node_prefix = "" if is_root else "├── " if has_sibling else "└── "
-        node_prefix = prefix + node_prefix
-        log_msg_record = node.name if is_root else \
-            "%s[%s] %s (%s)" % (node_prefix, node.visit_state.name, node.name, node.url)
-        records.append(log_msg_record)
-        carry_on_prefix = "" if is_root else "|   " if has_sibling else "    "
-        carry_on_prefix = prefix + carry_on_prefix
-        for child in node.children:
-            records.extend(self.__create_log_msg_records(child, carry_on_prefix))
-        return records
+    @staticmethod
+    def __create_node_prefix(is_root, has_sibling):
+        if is_root:
+            return ""
+        if has_sibling:
+            return "├── "
+        else:
+            return "└── "
+
+    @staticmethod
+    def __create_carry_on_prefix(is_root, has_sibling):
+        if is_root:
+            return ""
+        if has_sibling:
+            return "|   "
+        else:
+            return "    "
