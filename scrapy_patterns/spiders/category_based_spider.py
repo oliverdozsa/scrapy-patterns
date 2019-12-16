@@ -25,10 +25,12 @@ class CategoryBasedSpider(Spider):
             self.request_factory = request_factory
         self.__category_selectors = category_selectors
         self.__spider_state = CategoryBasedSpiderState(self.name, progress_file_dir)
-        self.__site_pager: SitePager = self.__create_site_pager()
         self.__site_page_parsers = site_page_parsers
+        self.__site_pager: Optional[SitePager] = None
 
     def start_requests(self):
+        # Must be created here because some attributes are available after from_crawler()
+        self.__site_pager = self.__create_site_pager()
         if self.__spider_state.is_loaded:
             yield self.__site_pager.start(self.__spider_state.current_page_url)
         else:
