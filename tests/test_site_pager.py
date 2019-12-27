@@ -1,8 +1,8 @@
 """Contains site pager tests"""
 from unittest.mock import Mock, ANY, call
 import pytest
-from scrapy_patterns.spiderlings.site_pager import SitePager, SitePageParsers
 from scrapy.exceptions import DontCloseSpider
+from scrapy_patterns.spiderlings.site_pager import SitePager, SitePageParsers
 
 
 def test_create():

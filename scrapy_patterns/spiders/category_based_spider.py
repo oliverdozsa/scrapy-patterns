@@ -34,7 +34,7 @@ class CategoryBasedSpider(Spider):
         if self.__spider_state.is_loaded:
             yield self.__site_pager.start(self.__spider_state.current_page_url)
         else:
-            site_discoverer = SiteStructureDiscoverer(self.name, self.start_url, self.__category_selectors,
+            site_discoverer = SiteStructureDiscoverer(self, self.start_url, self.__category_selectors,
                                                       self.request_factory, self._on_site_structure_discovery_complete)
             yield site_discoverer.create_start_request()
 
