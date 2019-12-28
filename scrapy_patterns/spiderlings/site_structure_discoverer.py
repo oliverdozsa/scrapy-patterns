@@ -1,8 +1,8 @@
 """Contains the site structure discoverer spiderling."""
 import logging
-from typing import List, Tuple, Callable
+from typing import List, Tuple, Callable, Optional
 
-from scrapy import Spider
+from scrapy import Spider, Request
 from scrapy.http import Response
 
 from scrapy_patterns.request_factory import RequestFactory
@@ -27,7 +27,7 @@ class SiteStructureDiscoverer:
     # pylint: disable=too-many-arguments, too-many-instance-attributes
     def __init__(self, spider: Spider, start_url: str, category_parsers: List[CategoryParser],
                  request_factory: RequestFactory,
-                 on_discovery_complete: Callable[['SiteStructureDiscoverer'], None] = None):
+                 on_discovery_complete: Callable[['SiteStructureDiscoverer'], Optional[Request]] = None):
         """
         Args:
             spider: The spider to which this belongs.
@@ -61,13 +61,9 @@ class SiteStructureDiscoverer:
         urls_and_names = self.__get_urls_and_names(response, category_parser)
         requests = []
         for url, name in urls_and_names:
-            structure_path = name if path is None else path + "/" + name
+            structure_path = self.__determine_structure_path(path, name)
             self.structure.add_node_with_path(structure_path, url)
-            if category_index + 1 < len(self.__category_parsers):
-                request = self.__request_factory.create(
-                    url, self.__process_category_response,
-                    cb_kwargs={"category_index": category_index + 1, "path": structure_path})
-                requests.append(request)
+            self.__append_to_requests_if_not_finished(category_index, requests, (url, structure_path))
         self.__remaining_work += len(requests)
         self.logger.info("[%s] Remaining work(s): %d", self.name, self.__remaining_work)
         if self.__remaining_work == 0:
@@ -84,3 +80,18 @@ class SiteStructureDiscoverer:
     @staticmethod
     def __do_nothing(_):
         return None
+
+    @staticmethod
+    def __determine_structure_path(current_path, name):
+        if current_path is None:
+            return name
+        else:
+            return current_path + "/" + name
+
+    def __append_to_requests_if_not_finished(self, category_index: int, requests: List[Request],
+                                             url_and_path: Tuple[str, str]):
+        if category_index + 1 < len(self.__category_parsers):
+            request = self.__request_factory.create(
+                url_and_path[0], self.__process_category_response,
+                cb_kwargs={"category_index": category_index + 1, "path": url_and_path[1]})
+            requests.append(request)
