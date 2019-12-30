@@ -62,19 +62,19 @@ class CategoryBasedSpider(Spider):
         current_category_node = self.__spider_state.site_structure.get_node_at_path(current_category_path)
         current_category_node.set_visit_state(VisitState.VISITED, propagate=False)
         self.__propagate_visited_if_siblings_visited(current_category_node)
-        self.__spider_state.log()
         return self.__progress_to_next_category()
 
     def __progress_to_next_category(self):
         next_category = self.__spider_state.site_structure.find_leaf_with_visit_state(VisitState.NEW)
+        next_request = None
         if next_category:
             next_category.set_visit_state(VisitState.IN_PROGRESS, propagate=True)
             self.__spider_state.current_page_url = next_category.url
             self.__spider_state.current_page_site_path = next_category.get_path()
-            self.__spider_state.save()
-            self.__spider_state.log()
-            return self.__site_pager.start(next_category.url)
-        return None
+            next_request = self.__site_pager.start(next_category.url)
+        self.__spider_state.save()
+        self.__spider_state.log()
+        return next_request
 
     @staticmethod
     def __are_category_children_visited(category_node: Node):

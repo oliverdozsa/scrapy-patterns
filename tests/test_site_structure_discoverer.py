@@ -5,7 +5,7 @@ from scrapy_patterns.spiderlings.site_structure_discoverer import SiteStructureD
 from unittest.mock import Mock, call, ANY
 
 
-def test_create_category_responses_no_complete_callback():
+def test_responses_without_complete_cb():
     mock_spider = Mock()
     mock_spider.name = "some_spider_name"
     mock_category_parsers = [_MockCategoryParserMain(), _MockCategoryParserSub()]
@@ -27,7 +27,7 @@ def test_create_category_responses_no_complete_callback():
     __simulate_category_response(mock_request_factory, 1)
 
 
-def test_process_category_responses():
+def test_responses_with_complete_callback():
     mock_spider = Mock()
     mock_category_parsers = [_MockCategoryParserMain(), _MockCategoryParserSub()]
     mock_request_factory = Mock()
