@@ -120,11 +120,7 @@ class SitePager:
         if self.__site_page_parsers.next_page_url.has_next(response):
             self.logger.info("[%s] Has next page.", self.name)
             url_data = self.__site_page_parsers.next_page_url.parse(response)
-            if isinstance(url_data, tuple):
-                self.__next_page_data.url = url_data[0]
-                self.__next_page_data.req_kwargs = url_data[1]
-            else:
-                self.__next_page_data.url = url_data
+            self.__set_next_page_data(url_data)
         else:
             self.logger.info("[%s] No more pages.", self.name)
             self.__next_page_data.url = None
@@ -184,6 +180,13 @@ class SitePager:
             # The request has to be 'manually' inserted.
             spider.crawler.engine.crawl(next_req, spider)
             raise exceptions.DontCloseSpider("Got spider idle, but there's more work to do!")
+
+    def __set_next_page_data(self, url_data):
+        if isinstance(url_data, tuple):
+            self.__next_page_data.url = url_data[0]
+            self.__next_page_data.req_kwargs = url_data[1]
+        else:
+            self.__next_page_data.url = url_data
 
 
 class _ItemsCounter:

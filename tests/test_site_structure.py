@@ -137,6 +137,13 @@ def test_find_leaf_visit_states_empty():
         structure.find_leaf_with_visit_state([])
 
 
+def test_add_duplicate():
+    structure = SiteStructure("root_name")
+    structure.add_node_with_path("animals", "animals_url")
+    with pytest.raises(RuntimeError):
+        structure.add_node_with_path("animals", "animals_url")
+
+
 def __create_test_structure():
     structure = SiteStructure("root_name")
     structure.add_node_with_path("animals", "animals_url")

@@ -59,11 +59,7 @@ class SiteStructureDiscoverer:
         self.__remaining_work -= 1
         category_parser = self.__category_parsers[category_index]
         urls_and_names = self.__get_urls_and_names(response, category_parser)
-        requests = []
-        for url, name in urls_and_names:
-            structure_path = self.__determine_structure_path(path, name)
-            self.structure.add_node_with_path(structure_path, url)
-            self.__append_to_requests_if_not_finished(category_index, requests, (url, structure_path))
+        requests = self.__prepare_requests(urls_and_names, path, category_index)
         self.__remaining_work += len(requests)
         self.logger.info("[%s] Remaining work(s): %d", self.name, self.__remaining_work)
         if self.__remaining_work == 0:
@@ -81,12 +77,29 @@ class SiteStructureDiscoverer:
     def __do_nothing(_):
         return None
 
+    def __prepare_requests(self, urls_and_names: List[Tuple[str, str]], current_path: str, category_index: int):
+        requests = []
+        for url, name in urls_and_names:
+            structure_path = self.__determine_structure_path(current_path, name)
+            is_added = self.__try_add_path(structure_path, url)
+            if is_added:
+                self.__append_to_requests_if_not_finished(category_index, requests, (url, structure_path))
+        return requests
+
     @staticmethod
     def __determine_structure_path(current_path, name):
         if current_path is None:
             return name
         else:
             return current_path + "/" + name
+
+    def __try_add_path(self, path: str, url: str) -> bool:
+        if self.structure.get_node_at_path(path) is not None:
+            self.logger.warning("Path \"path\" already exists; path to add is ignored!")
+            return False
+        else:
+            self.structure.add_node_with_path(path, url)
+            return True
 
     def __append_to_requests_if_not_finished(self, category_index: int, requests: List[Request],
                                              url_and_path: Tuple[str, str]):

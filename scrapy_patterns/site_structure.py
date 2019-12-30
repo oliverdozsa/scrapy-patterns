@@ -113,6 +113,8 @@ class SiteStructure:
 
         Returns: The newly created node.
         """
+        if self.get_node_at_path(path) is not None:
+            raise RuntimeError("Path \"%s\" already exists!" % path)
         used_path = path.strip("/")
         node_names = self.__split_path(used_path)
         children = self.root_node.children
