@@ -2,7 +2,7 @@
 import logging
 from typing import List, Union, Tuple, Callable
 
-from scrapy import Spider, Item, signals, exceptions
+from scrapy import Spider, Item, signals, exceptions, Request
 from scrapy.http import Response
 from scrapy_patterns.request_factory import RequestFactory
 
@@ -101,7 +101,7 @@ class SitePager:
         self.name = spider.name  # Needed to conform to Scrapy Spiders.
         spider.crawler.signals.connect(self.__spider_idle, signal=signals.spider_idle)
 
-    def start(self, start_page_url: str):
+    def start(self, start_page_url: str) -> Request:
         """
         Creates the starting request, and resets the pager. This request should be returned from spiders.
         start() can be used multiple times, but only when paging is finished!

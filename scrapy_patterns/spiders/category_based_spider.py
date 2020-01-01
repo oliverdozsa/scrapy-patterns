@@ -1,5 +1,6 @@
-from typing import List, Optional
-from scrapy import Spider
+"""Contains the category based spider."""
+from typing import List, Optional, Generator
+from scrapy import Spider, Request
 from scrapy_patterns.spiders.private.category_based_spider_state import CategoryBasedSpiderState
 from scrapy_patterns.request_factory import RequestFactory
 from scrapy_patterns.spiderlings.site_structure_discoverer import SiteStructureDiscoverer, CategoryParser
@@ -7,28 +8,61 @@ from scrapy_patterns.spiderlings.site_pager import SitePager, SitePageParsers, S
 from scrapy_patterns.site_structure import VisitState, Node
 
 
+class CategoryBasedSpiderData:
+    """Stores data needed for category based spider."""
+    def __init__(self, progress_file_dir: str, name: str = None, start_url: str = None):
+        """
+        Args:
+            progress_file_dir: A path to a directory where the progress file will be stored
+            name: Name of the spider (optional as it can be an attribute)
+            start_url: The starting URL (optional as it can be an attribute)
+        """
+        self.progress_file_dir = progress_file_dir
+        self.name = name
+        self.start_url = start_url
+
+
 class CategoryBasedSpider(Spider):
+    """
+    This base spider is useful for scraping sites that have category based structure. In more detail, the site should
+    have main categories, with optional sub-categories, each leaf category pointing to a page-able part.
+    """
     start_url = None
     request_factory = RequestFactory()
 
     def __init__(self, site_page_parsers: SitePageParsers, category_selectors: List[CategoryParser],
-                 progress_file_dir: str,
-                 name: str = None, start_url: str = None, request_factory: RequestFactory = None, **kwargs):
-        super().__init__(name, **kwargs)
+                 data: CategoryBasedSpiderData, request_factory: RequestFactory = None, **kwargs):
+        """
+        Args:
+            site_page_parsers: The site page parsers
+            category_selectors: Category selectors
+            data: Progress file directory, spider name, and start URL
+            request_factory: Request factory
+            **kwargs: Keyword arguments passed to base Spider
+        """
+        if data is None:
+            raise ValueError("%s must have data" % type(self).__name__)
+        super().__init__(data.name, **kwargs)
         if category_selectors is None:
             raise ValueError("%s must have category selectors" % type(self).__name__)
-        if start_url is not None:
-            self.start_url = start_url
+        if data.start_url is not None:
+            self.start_url = data.start_url
         elif not getattr(self, "start_url", None):
             raise ValueError("%s must have start URL" % type(self).__name__)
         if request_factory is not None:
             self.request_factory = request_factory
         self.__category_selectors = category_selectors
-        self.__spider_state = CategoryBasedSpiderState(self.name, progress_file_dir)
+        self.__spider_state = CategoryBasedSpiderState(self.name, data.progress_file_dir)
         self.__site_page_parsers = site_page_parsers
         self.__site_pager: Optional[SitePager] = None
 
-    def start_requests(self):
+    def start_requests(self) -> Generator[Request, None, None]:
+        """
+        See Scrapy Spider start_requests()
+
+        Returns: If saved progress exists, the next request to continue with, otherwise the starting request for site
+        structure discovery.
+        """
         # Must be created here because some attributes are available after from_crawler()
         self.__site_pager = self.__create_site_pager()
         if self.__spider_state.is_loaded:
@@ -39,6 +73,14 @@ class CategoryBasedSpider(Spider):
             yield site_discoverer.create_start_request()
 
     def parse(self, response):
+        """
+        Not used since the underlying spiderlings will control requests processing.
+        Args:
+            response:
+
+        Returns:
+
+        """
         # Not used
         yield None
 

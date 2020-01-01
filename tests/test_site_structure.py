@@ -1,7 +1,7 @@
 """Site structure tests"""
 import pytest
 
-from scrapy_patterns.site_structure import SiteStructure, VisitState, Node
+from scrapy_patterns.site_structure import SiteStructure, VisitState
 
 
 def test_create_site_structure():

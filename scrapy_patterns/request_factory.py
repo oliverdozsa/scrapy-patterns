@@ -10,7 +10,7 @@ class RequestFactory:
     """
 
     @staticmethod
-    def create(url: str, callback: Callable, **kwargs):
+    def create(url: str, callback: Callable, **kwargs) -> Request:
         """
         Creates a Scrapy Request.
 
