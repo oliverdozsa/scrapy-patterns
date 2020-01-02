@@ -106,6 +106,18 @@ class CategoryBasedSpider(Spider):
         self.__propagate_visited_if_siblings_visited(current_category_node)
         return self.__progress_to_next_category()
 
+    def __propagate_visited_if_siblings_visited(self, category_node: Node):
+        if category_node.parent and self.__are_category_children_visited(category_node.parent):
+            category_node.parent.set_visit_state(VisitState.VISITED)
+            self.__propagate_visited_if_siblings_visited(category_node.parent)
+
+    @staticmethod
+    def __are_category_children_visited(category_node: Node):
+        for child in category_node.children:
+            if child.visit_state != VisitState.VISITED:
+                return False
+        return True
+
     def __progress_to_next_category(self):
         next_category = self.__spider_state.site_structure.find_leaf_with_visit_state(VisitState.NEW)
         next_request = None
@@ -117,15 +129,3 @@ class CategoryBasedSpider(Spider):
         self.__spider_state.save()
         self.__spider_state.log()
         return next_request
-
-    @staticmethod
-    def __are_category_children_visited(category_node: Node):
-        for child in category_node.children:
-            if child.visit_state != VisitState.VISITED:
-                return False
-        return True
-
-    def __propagate_visited_if_siblings_visited(self, category_node: Node):
-        if category_node.parent and self.__are_category_children_visited(category_node.parent):
-            category_node.parent.set_visit_state(VisitState.VISITED)
-            self.__propagate_visited_if_siblings_visited(category_node.parent)
