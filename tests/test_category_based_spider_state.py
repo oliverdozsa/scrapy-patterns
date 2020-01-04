@@ -17,7 +17,7 @@ def test_save_file_and_path_doesnt_exist(os_mock, json_mock):
     state.current_page_site_path = "Some Category"
     os_mock.path.join.assert_called_with("some_spider_path", "some_spider_name_progress.json")
 
-    with patch("builtins.open", mock_open(read_data=Mock())):
+    with patch("builtins.open", mock_open(read_data="some_data")):
         state.save()
         os_mock.mkdir.assert_called()
         json_mock.dump.assert_called()
@@ -41,7 +41,7 @@ def test_progress_file_exists(os_mock, json_mock):
     """Tests state creation when progress file exists."""
     os_mock.path.isfile.return_value = True
     os_mock.path.isdir.return_value = True
-    with patch("builtins.open", mock_open(read_data=Mock())):
+    with patch("builtins.open", mock_open(read_data="some_data")):
         json_mock.load.return_value = {
             "site_structure": SiteStructure("some-struct").to_dict(),
             "current_page_url": "http://some-recipe-site.com/some-category/page1",
