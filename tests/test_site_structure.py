@@ -138,6 +138,7 @@ def test_find_leaf_visit_states_empty():
 
 
 def test_add_duplicate():
+    """Tests that adding duplicate node fails."""
     structure = SiteStructure("root_name")
     structure.add_node_with_path("animals", "animals_url")
     with pytest.raises(RuntimeError):

@@ -1,11 +1,13 @@
+"""This is a private module containing state handling for category based spider."""
 import os
 import json
 import logging
 from typing import Optional
 from scrapy_patterns.site_structure import SiteStructure
 
-
+# pylint: disable=too-many-instance-attributes
 class CategoryBasedSpiderState:
+    """The class holding the state."""
     def __init__(self, spider_name: str, progress_file_dir: str):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.site_structure: Optional[SiteStructure] = None
@@ -23,6 +25,7 @@ class CategoryBasedSpiderState:
             self.is_loaded = True
 
     def save(self):
+        """Saves the state to the progress file."""
         if self.site_structure is None:
             raise RuntimeError("[%s] Site structure doesn't exist!" % self.__spider_name)
         self.logger.info("[%s] Saving state.", self.__spider_name)
@@ -38,6 +41,7 @@ class CategoryBasedSpiderState:
             json.dump(json_state, json_file)
 
     def log(self):
+        """Logs the state."""
         self.logger.info("[%s] state:\n"
                          "current_page_url = %s\n"
                          "current_page_site_path = %s\n"

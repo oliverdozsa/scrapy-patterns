@@ -31,7 +31,7 @@ class CategoryBasedSpider(Spider):
     request_factory = RequestFactory()
 
     def __init__(self, site_page_parsers: SitePageParsers, category_selectors: List[CategoryParser],
-                 data: CategoryBasedSpiderData, request_factory: RequestFactory = None, **kwargs):
+                 data: CategoryBasedSpiderData, **kwargs):
         """
         Args:
             site_page_parsers: The site page parsers
@@ -49,8 +49,6 @@ class CategoryBasedSpider(Spider):
             self.start_url = data.start_url
         elif not getattr(self, "start_url", None):
             raise ValueError("%s must have start URL" % type(self).__name__)
-        if request_factory is not None:
-            self.request_factory = request_factory
         self.__category_selectors = category_selectors
         self.__spider_state = CategoryBasedSpiderState(self.name, data.progress_file_dir)
         self.__site_page_parsers = site_page_parsers
@@ -75,13 +73,7 @@ class CategoryBasedSpider(Spider):
     def parse(self, response):
         """
         Not used since the underlying spiderlings will control requests processing.
-        Args:
-            response:
-
-        Returns:
-
         """
-        # Not used
         yield None
 
     def _on_site_structure_discovery_complete(self, discoverer):

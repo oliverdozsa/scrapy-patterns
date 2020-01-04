@@ -1,11 +1,11 @@
 """Contains site structure discoverer tests"""
 from typing import List, Tuple
-
-from scrapy_patterns.spiderlings.site_structure_discoverer import SiteStructureDiscoverer, CategoryParser
 from unittest.mock import Mock, call, ANY
+from scrapy_patterns.spiderlings.site_structure_discoverer import SiteStructureDiscoverer, CategoryParser
 
 
 def test_responses_without_complete_cb():
+    """Tests getting a response and there's no complete callback given."""
     mock_spider = Mock()
     mock_spider.name = "some_spider_name"
     mock_category_parsers = [_MockCategoryParserMain(), _MockCategoryParserSub()]
@@ -28,6 +28,7 @@ def test_responses_without_complete_cb():
 
 
 def test_responses_with_complete_callback():
+    """Tests getting a response with complete callback given."""
     mock_spider = Mock()
     mock_category_parsers = [_MockCategoryParserMain(), _MockCategoryParserSub()]
     mock_request_factory = Mock()
