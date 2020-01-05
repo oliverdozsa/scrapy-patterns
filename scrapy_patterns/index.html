@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.7.2" />
 <title>scrapy_patterns API documentation</title>
-<meta name="description" content="" />
+<meta name="description" content="What is scrapy-patterns?
+It&#39;s a library for [Scrapy](https://scrapy.org/) to help implementing spiders quicker. How? Many websites are built
+around …" />
 <link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
 <link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
@@ -20,6 +22,29 @@
 <h1 class="title">Module <code>scrapy_patterns</code></h1>
 </header>
 <section id="section-intro">
+<h2 id="what-is-scrapy-patterns">What is scrapy-patterns?</h2>
+<p>It's a library for <a href="https://scrapy.org/">Scrapy</a> to help implementing spiders quicker. How? Many websites are built
+around patterns. The goal of this library is to provide elements for following those patterns. All you need to do is
+tell how to extract the necessary information, and the patterns in this library will do the rest (like following links,
+extracting items, etc&hellip;).</p>
+<h2 id="concepts">Concepts</h2>
+<h3 id="spiderlings">Spiderlings</h3>
+<p>Spiderlings are "immature" spiders; they are not really meaningful on their own, only when combined with other
+spiderlings / spiders. They provide one functionality, like going through a list of pages from a given starting URL.
+Following is a description of currently existing spiderlings.</p>
+<h4 id="site-pager">Site Pager</h4>
+<p>The <a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager"><code>SitePager</code></a> class can be used for going through a pageable part of a website.
+TODO</p>
+<h4 id="site-structure-discoverer">Site Structure Discoverer</h4>
+<p>TODO</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+.. include:: ./documentation.md
+&#34;&#34;&#34;</code></pre>
+</details>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
@@ -34,11 +59,11 @@
 </dd>
 <dt><code class="name"><a title="scrapy_patterns.spiderlings" href="spiderlings/index.html">scrapy_patterns.spiderlings</a></code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>TODO</p></section>
 </dd>
 <dt><code class="name"><a title="scrapy_patterns.spiders" href="spiders/index.html">scrapy_patterns.spiders</a></code></dt>
 <dd>
-<section class="desc"></section>
+<section class="desc"><p>TODO</p></section>
 </dd>
 </dl>
 </section>
@@ -52,7 +77,17 @@
 <nav id="sidebar">
 <h1>Index</h1>
 <div class="toc">
-<ul></ul>
+<ul>
+<li><a href="#what-is-scrapy-patterns">What is scrapy-patterns?</a></li>
+<li><a href="#concepts">Concepts</a><ul>
+<li><a href="#spiderlings">Spiderlings</a><ul>
+<li><a href="#site-pager">Site Pager</a></li>
+<li><a href="#site-structure-discoverer">Site Structure Discoverer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 </div>
 <ul id="index">
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
