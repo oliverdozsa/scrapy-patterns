@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>scrapy_patterns.spiderlings.site_structure_discoverer API documentation</title>
+<meta name="description" content="Contains the site structure discoverer spiderling." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>scrapy_patterns.spiderlings.site_structure_discoverer</code></h1>
+</header>
+<section id="section-intro">
+<p>Contains the site structure discoverer spiderling.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Contains the site structure discoverer spiderling.&#34;&#34;&#34;
+import logging
+from typing import List, Tuple, Callable, Optional
+
+from scrapy import Spider, Request
+from scrapy.http import Response
+
+from scrapy_patterns.request_factory import RequestFactory
+from scrapy_patterns.site_structure import SiteStructure
+
+
+class CategoryParser:
+    &#34;&#34;&#34;Interface used for parsing categories.&#34;&#34;&#34;
+    def parse(self, response) -&gt; List[Tuple[str, str]]:
+        &#34;&#34;&#34;
+        Parses categories from the response.
+        Args:
+            response: The response
+
+        Returns: List of tuples, where the first element is the URL of the category, and the second is the name.
+        &#34;&#34;&#34;
+        raise NotImplementedError()
+
+
+class SiteStructureDiscoverer:
+    &#34;&#34;&#34;Discovers the site structure.&#34;&#34;&#34;
+    # pylint: disable=too-many-arguments, too-many-instance-attributes
+    def __init__(self, spider: Spider, start_url: str, category_parsers: List[CategoryParser],
+                 request_factory: RequestFactory,
+                 on_discovery_complete: Callable[[&#39;SiteStructureDiscoverer&#39;], Optional[Request]] = None):
+        &#34;&#34;&#34;
+        Args:
+            spider: The spider to which this belongs.
+            start_url: Starting URL of categories.
+            category_parsers: List of category parsers for each level of categories.
+            request_factory: The request factory.
+            on_discovery_complete: An optional callback when the discovery is complete. It&#39;ll receive this discoverer
+            as its argument. It should return a scrapy request to continue the scraping with.
+        &#34;&#34;&#34;
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.name = spider.name  # Needed to conform to Scrapy Spiders.
+        self.structure = SiteStructure(self.name)
+        self.__start_url = start_url
+        self.__category_parsers = category_parsers
+        self.__request_factory = request_factory
+        self.__remaining_work = 0
+        self.__on_discovery_complete = on_discovery_complete if on_discovery_complete else self.__do_nothing
+
+    def create_start_request(self):
+        &#34;&#34;&#34;
+        Creates the starting request.
+        Returns: The starting request.
+        &#34;&#34;&#34;
+        self.__remaining_work += 1
+        return self.__request_factory.create(self.__start_url, self.__process_category_response,
+                                             cb_kwargs={&#34;category_index&#34;: 0, &#34;path&#34;: None})
+
+    def __process_category_response(self, response, category_index: int, path: str):
+        self.__remaining_work -= 1
+        category_parser = self.__category_parsers[category_index]
+        urls_and_names = self.__get_urls_and_names(response, category_parser)
+        requests = self.__prepare_requests(urls_and_names, path, category_index)
+        self.__remaining_work += len(requests)
+        self.logger.info(&#34;[%s] Remaining work(s): %d&#34;, self.name, self.__remaining_work)
+        if self.__remaining_work == 0:
+            self.logger.info(&#34;[%s] Discovery complete.\n&#34;
+                             &#34;%s&#34;, self.name, str(self.structure))
+            yield self.__on_discovery_complete(self)
+        for req in requests:
+            yield req
+
+    @staticmethod
+    def __get_urls_and_names(response: Response, category_parser: CategoryParser):
+        return category_parser.parse(response)
+
+    @staticmethod
+    def __do_nothing(_):
+        return None
+
+    def __prepare_requests(self, urls_and_names: List[Tuple[str, str]], current_path: str, category_index: int):
+        requests = []
+        for url, name in urls_and_names:
+            structure_path = self.__determine_structure_path(current_path, name)
+            is_added = self.__try_add_path(structure_path, url)
+            if is_added:
+                self.__append_to_requests_if_not_finished(category_index, requests, (url, structure_path))
+        return requests
+
+    @staticmethod
+    def __determine_structure_path(current_path, name):
+        if current_path is None:
+            return name
+        else:
+            return current_path + &#34;/&#34; + name
+
+    def __try_add_path(self, path: str, url: str) -&gt; bool:
+        if self.structure.get_node_at_path(path) is not None:
+            self.logger.warning(&#34;Path \&#34;path\&#34; already exists; path to add is ignored!&#34;)
+            return False
+        else:
+            self.structure.add_node_with_path(path, url)
+            return True
+
+    def __append_to_requests_if_not_finished(self, category_index: int, requests: List[Request],
+                                             url_and_path: Tuple[str, str]):
+        if category_index + 1 &lt; len(self.__category_parsers):
+            request = self.__request_factory.create(
+                url_and_path[0], self.__process_category_response,
+                cb_kwargs={&#34;category_index&#34;: category_index + 1, &#34;path&#34;: url_and_path[1]})
+            requests.append(request)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser"><code class="flex name class">
+<span>class <span class="ident">CategoryParser</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Interface used for parsing categories.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CategoryParser:
+    &#34;&#34;&#34;Interface used for parsing categories.&#34;&#34;&#34;
+    def parse(self, response) -&gt; List[Tuple[str, str]]:
+        &#34;&#34;&#34;
+        Parses categories from the response.
+        Args:
+            response: The response
+
+        Returns: List of tuples, where the first element is the URL of the category, and the second is the name.
+        &#34;&#34;&#34;
+        raise NotImplementedError()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser.parse"><code class="name flex">
+<span>def <span class="ident">parse</span></span>(<span>self, response)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Parses categories from the response.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>response</code></strong></dt>
+<dd>The response</dd>
+</dl>
+<p>Returns: List of tuples, where the first element is the URL of the category, and the second is the name.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse(self, response) -&gt; List[Tuple[str, str]]:
+    &#34;&#34;&#34;
+    Parses categories from the response.
+    Args:
+        response: The response
+
+    Returns: List of tuples, where the first element is the URL of the category, and the second is the name.
+    &#34;&#34;&#34;
+    raise NotImplementedError()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code class="flex name class">
+<span>class <span class="ident">SiteStructureDiscoverer</span></span>
+<span>(</span><span>spider, start_url, category_parsers, request_factory, on_discovery_complete=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Discovers the site structure.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>spider</code></strong></dt>
+<dd>The spider to which this belongs.</dd>
+<dt><strong><code>start_url</code></strong></dt>
+<dd>Starting URL of categories.</dd>
+<dt><strong><code>category_parsers</code></strong></dt>
+<dd>List of category parsers for each level of categories.</dd>
+<dt><strong><code>request_factory</code></strong></dt>
+<dd>The request factory.</dd>
+<dt><strong><code>on_discovery_complete</code></strong></dt>
+<dd>An optional callback when the discovery is complete. It'll receive this discoverer</dd>
+</dl>
+<p>as its argument. It should return a scrapy request to continue the scraping with.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SiteStructureDiscoverer:
+    &#34;&#34;&#34;Discovers the site structure.&#34;&#34;&#34;
+    # pylint: disable=too-many-arguments, too-many-instance-attributes
+    def __init__(self, spider: Spider, start_url: str, category_parsers: List[CategoryParser],
+                 request_factory: RequestFactory,
+                 on_discovery_complete: Callable[[&#39;SiteStructureDiscoverer&#39;], Optional[Request]] = None):
+        &#34;&#34;&#34;
+        Args:
+            spider: The spider to which this belongs.
+            start_url: Starting URL of categories.
+            category_parsers: List of category parsers for each level of categories.
+            request_factory: The request factory.
+            on_discovery_complete: An optional callback when the discovery is complete. It&#39;ll receive this discoverer
+            as its argument. It should return a scrapy request to continue the scraping with.
+        &#34;&#34;&#34;
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.name = spider.name  # Needed to conform to Scrapy Spiders.
+        self.structure = SiteStructure(self.name)
+        self.__start_url = start_url
+        self.__category_parsers = category_parsers
+        self.__request_factory = request_factory
+        self.__remaining_work = 0
+        self.__on_discovery_complete = on_discovery_complete if on_discovery_complete else self.__do_nothing
+
+    def create_start_request(self):
+        &#34;&#34;&#34;
+        Creates the starting request.
+        Returns: The starting request.
+        &#34;&#34;&#34;
+        self.__remaining_work += 1
+        return self.__request_factory.create(self.__start_url, self.__process_category_response,
+                                             cb_kwargs={&#34;category_index&#34;: 0, &#34;path&#34;: None})
+
+    def __process_category_response(self, response, category_index: int, path: str):
+        self.__remaining_work -= 1
+        category_parser = self.__category_parsers[category_index]
+        urls_and_names = self.__get_urls_and_names(response, category_parser)
+        requests = self.__prepare_requests(urls_and_names, path, category_index)
+        self.__remaining_work += len(requests)
+        self.logger.info(&#34;[%s] Remaining work(s): %d&#34;, self.name, self.__remaining_work)
+        if self.__remaining_work == 0:
+            self.logger.info(&#34;[%s] Discovery complete.\n&#34;
+                             &#34;%s&#34;, self.name, str(self.structure))
+            yield self.__on_discovery_complete(self)
+        for req in requests:
+            yield req
+
+    @staticmethod
+    def __get_urls_and_names(response: Response, category_parser: CategoryParser):
+        return category_parser.parse(response)
+
+    @staticmethod
+    def __do_nothing(_):
+        return None
+
+    def __prepare_requests(self, urls_and_names: List[Tuple[str, str]], current_path: str, category_index: int):
+        requests = []
+        for url, name in urls_and_names:
+            structure_path = self.__determine_structure_path(current_path, name)
+            is_added = self.__try_add_path(structure_path, url)
+            if is_added:
+                self.__append_to_requests_if_not_finished(category_index, requests, (url, structure_path))
+        return requests
+
+    @staticmethod
+    def __determine_structure_path(current_path, name):
+        if current_path is None:
+            return name
+        else:
+            return current_path + &#34;/&#34; + name
+
+    def __try_add_path(self, path: str, url: str) -&gt; bool:
+        if self.structure.get_node_at_path(path) is not None:
+            self.logger.warning(&#34;Path \&#34;path\&#34; already exists; path to add is ignored!&#34;)
+            return False
+        else:
+            self.structure.add_node_with_path(path, url)
+            return True
+
+    def __append_to_requests_if_not_finished(self, category_index: int, requests: List[Request],
+                                             url_and_path: Tuple[str, str]):
+        if category_index + 1 &lt; len(self.__category_parsers):
+            request = self.__request_factory.create(
+                url_and_path[0], self.__process_category_response,
+                cb_kwargs={&#34;category_index&#34;: category_index + 1, &#34;path&#34;: url_and_path[1]})
+            requests.append(request)</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer.create_start_request"><code class="name flex">
+<span>def <span class="ident">create_start_request</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates the starting request.
+Returns: The starting request.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def create_start_request(self):
+    &#34;&#34;&#34;
+    Creates the starting request.
+    Returns: The starting request.
+    &#34;&#34;&#34;
+    self.__remaining_work += 1
+    return self.__request_factory.create(self.__start_url, self.__process_category_response,
+                                         cb_kwargs={&#34;category_index&#34;: 0, &#34;path&#34;: None})</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="scrapy_patterns.spiderlings" href="index.html">scrapy_patterns.spiderlings</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser" href="#scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser">CategoryParser</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser.parse" href="#scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser.parse">parse</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer">SiteStructureDiscoverer</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer.create_start_request" href="#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer.create_start_request">create_start_request</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

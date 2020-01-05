@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>scrapy_patterns.spiders.category_based_spider API documentation</title>
+<meta name="description" content="Contains the category based spider." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>scrapy_patterns.spiders.category_based_spider</code></h1>
+</header>
+<section id="section-intro">
+<p>Contains the category based spider.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Contains the category based spider.&#34;&#34;&#34;
+from typing import List, Optional, Generator
+from scrapy import Spider, Request
+from scrapy_patterns.spiders.private.category_based_spider_state import CategoryBasedSpiderState
+from scrapy_patterns.request_factory import RequestFactory
+from scrapy_patterns.spiderlings.site_structure_discoverer import SiteStructureDiscoverer, CategoryParser
+from scrapy_patterns.spiderlings.site_pager import SitePager, SitePageParsers, SitePageCallbacks
+from scrapy_patterns.site_structure import VisitState, Node
+
+
+class CategoryBasedSpiderData:
+    &#34;&#34;&#34;Stores data needed for category based spider.&#34;&#34;&#34;
+    def __init__(self, progress_file_dir: str, name: str = None, start_url: str = None):
+        &#34;&#34;&#34;
+        Args:
+            progress_file_dir: A path to a directory where the progress file will be stored
+            name: Name of the spider (optional as it can be an attribute)
+            start_url: The starting URL (optional as it can be an attribute)
+        &#34;&#34;&#34;
+        self.progress_file_dir = progress_file_dir
+        self.name = name
+        self.start_url = start_url
+
+
+class CategoryBasedSpider(Spider):
+    &#34;&#34;&#34;
+    This base spider is useful for scraping sites that have category based structure. In more detail, the site should
+    have main categories, with optional sub-categories, each leaf category pointing to a page-able part.
+    &#34;&#34;&#34;
+    start_url = None
+    request_factory = RequestFactory()
+
+    def __init__(self, site_page_parsers: SitePageParsers, category_selectors: List[CategoryParser],
+                 data: CategoryBasedSpiderData, **kwargs):
+        &#34;&#34;&#34;
+        Args:
+            site_page_parsers: The site page parsers
+            category_selectors: Category selectors
+            data: Progress file directory, spider name, and start URL
+            request_factory: Request factory
+            **kwargs: Keyword arguments passed to base Spider
+        &#34;&#34;&#34;
+        if data is None:
+            raise ValueError(&#34;%s must have data&#34; % type(self).__name__)
+        super().__init__(data.name, **kwargs)
+        if category_selectors is None:
+            raise ValueError(&#34;%s must have category selectors&#34; % type(self).__name__)
+        if data.start_url is not None:
+            self.start_url = data.start_url
+        elif not getattr(self, &#34;start_url&#34;, None):
+            raise ValueError(&#34;%s must have start URL&#34; % type(self).__name__)
+        self.__category_selectors = category_selectors
+        self.__spider_state = CategoryBasedSpiderState(self.name, data.progress_file_dir)
+        self.__site_page_parsers = site_page_parsers
+        self.__site_pager: Optional[SitePager] = None
+
+    def start_requests(self) -&gt; Generator[Request, None, None]:
+        &#34;&#34;&#34;
+        See Scrapy Spider start_requests()
+
+        Returns: If saved progress exists, the next request to continue with, otherwise the starting request for site
+        structure discovery.
+        &#34;&#34;&#34;
+        # Must be created here because some attributes are available after from_crawler()
+        self.__site_pager = self.__create_site_pager()
+        if self.__spider_state.is_loaded:
+            yield self.__site_pager.start(self.__spider_state.current_page_url)
+        else:
+            site_discoverer = SiteStructureDiscoverer(self, self.start_url, self.__category_selectors,
+                                                      self.request_factory, self._on_site_structure_discovery_complete)
+            yield site_discoverer.create_start_request()
+
+    def parse(self, response):
+        &#34;&#34;&#34;
+        Not used since the underlying spiderlings will control requests processing.
+        &#34;&#34;&#34;
+        yield None
+
+    def _on_site_structure_discovery_complete(self, discoverer):
+        self.__spider_state.site_structure = discoverer.structure
+        self.__spider_state.save()
+        return self.__progress_to_next_category()
+
+    def __create_site_pager(self) -&gt; SitePager:
+        callbacks = SitePageCallbacks(self.__on_paging_finished, self.__on_page_finished)
+        return SitePager(self, self.request_factory, self.__site_page_parsers, callbacks)
+
+    def __on_page_finished(self, next_page_url):
+        # Category is not changed when a page is finished.
+        self.__spider_state.current_page_url = next_page_url
+        self.__spider_state.save()
+        self.__spider_state.log()
+
+    def __on_paging_finished(self):
+        current_category_path = self.__spider_state.current_page_site_path
+        current_category_node = self.__spider_state.site_structure.get_node_at_path(current_category_path)
+        current_category_node.set_visit_state(VisitState.VISITED, propagate=False)
+        self.__propagate_visited_if_siblings_visited(current_category_node)
+        return self.__progress_to_next_category()
+
+    def __propagate_visited_if_siblings_visited(self, category_node: Node):
+        if category_node.parent and self.__are_category_children_visited(category_node.parent):
+            category_node.parent.set_visit_state(VisitState.VISITED)
+            self.__propagate_visited_if_siblings_visited(category_node.parent)
+
+    @staticmethod
+    def __are_category_children_visited(category_node: Node):
+        for child in category_node.children:
+            if child.visit_state != VisitState.VISITED:
+                return False
+        return True
+
+    def __progress_to_next_category(self):
+        next_category = self.__spider_state.site_structure.find_leaf_with_visit_state(VisitState.NEW)
+        next_request = None
+        if next_category:
+            next_category.set_visit_state(VisitState.IN_PROGRESS, propagate=True)
+            self.__spider_state.current_page_url = next_category.url
+            self.__spider_state.current_page_site_path = next_category.get_path()
+            next_request = self.__site_pager.start(next_category.url)
+        self.__spider_state.save()
+        self.__spider_state.log()
+        return next_request</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider"><code class="flex name class">
+<span>class <span class="ident">CategoryBasedSpider</span></span>
+<span>(</span><span>site_page_parsers, category_selectors, data, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>This base spider is useful for scraping sites that have category based structure. In more detail, the site should
+have main categories, with optional sub-categories, each leaf category pointing to a page-able part.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>site_page_parsers</code></strong></dt>
+<dd>The site page parsers</dd>
+<dt><strong><code>category_selectors</code></strong></dt>
+<dd>Category selectors</dd>
+<dt><strong><code>data</code></strong></dt>
+<dd>Progress file directory, spider name, and start URL</dd>
+<dt><strong><code>request_factory</code></strong></dt>
+<dd>Request factory</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Keyword arguments passed to base Spider</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CategoryBasedSpider(Spider):
+    &#34;&#34;&#34;
+    This base spider is useful for scraping sites that have category based structure. In more detail, the site should
+    have main categories, with optional sub-categories, each leaf category pointing to a page-able part.
+    &#34;&#34;&#34;
+    start_url = None
+    request_factory = RequestFactory()
+
+    def __init__(self, site_page_parsers: SitePageParsers, category_selectors: List[CategoryParser],
+                 data: CategoryBasedSpiderData, **kwargs):
+        &#34;&#34;&#34;
+        Args:
+            site_page_parsers: The site page parsers
+            category_selectors: Category selectors
+            data: Progress file directory, spider name, and start URL
+            request_factory: Request factory
+            **kwargs: Keyword arguments passed to base Spider
+        &#34;&#34;&#34;
+        if data is None:
+            raise ValueError(&#34;%s must have data&#34; % type(self).__name__)
+        super().__init__(data.name, **kwargs)
+        if category_selectors is None:
+            raise ValueError(&#34;%s must have category selectors&#34; % type(self).__name__)
+        if data.start_url is not None:
+            self.start_url = data.start_url
+        elif not getattr(self, &#34;start_url&#34;, None):
+            raise ValueError(&#34;%s must have start URL&#34; % type(self).__name__)
+        self.__category_selectors = category_selectors
+        self.__spider_state = CategoryBasedSpiderState(self.name, data.progress_file_dir)
+        self.__site_page_parsers = site_page_parsers
+        self.__site_pager: Optional[SitePager] = None
+
+    def start_requests(self) -&gt; Generator[Request, None, None]:
+        &#34;&#34;&#34;
+        See Scrapy Spider start_requests()
+
+        Returns: If saved progress exists, the next request to continue with, otherwise the starting request for site
+        structure discovery.
+        &#34;&#34;&#34;
+        # Must be created here because some attributes are available after from_crawler()
+        self.__site_pager = self.__create_site_pager()
+        if self.__spider_state.is_loaded:
+            yield self.__site_pager.start(self.__spider_state.current_page_url)
+        else:
+            site_discoverer = SiteStructureDiscoverer(self, self.start_url, self.__category_selectors,
+                                                      self.request_factory, self._on_site_structure_discovery_complete)
+            yield site_discoverer.create_start_request()
+
+    def parse(self, response):
+        &#34;&#34;&#34;
+        Not used since the underlying spiderlings will control requests processing.
+        &#34;&#34;&#34;
+        yield None
+
+    def _on_site_structure_discovery_complete(self, discoverer):
+        self.__spider_state.site_structure = discoverer.structure
+        self.__spider_state.save()
+        return self.__progress_to_next_category()
+
+    def __create_site_pager(self) -&gt; SitePager:
+        callbacks = SitePageCallbacks(self.__on_paging_finished, self.__on_page_finished)
+        return SitePager(self, self.request_factory, self.__site_page_parsers, callbacks)
+
+    def __on_page_finished(self, next_page_url):
+        # Category is not changed when a page is finished.
+        self.__spider_state.current_page_url = next_page_url
+        self.__spider_state.save()
+        self.__spider_state.log()
+
+    def __on_paging_finished(self):
+        current_category_path = self.__spider_state.current_page_site_path
+        current_category_node = self.__spider_state.site_structure.get_node_at_path(current_category_path)
+        current_category_node.set_visit_state(VisitState.VISITED, propagate=False)
+        self.__propagate_visited_if_siblings_visited(current_category_node)
+        return self.__progress_to_next_category()
+
+    def __propagate_visited_if_siblings_visited(self, category_node: Node):
+        if category_node.parent and self.__are_category_children_visited(category_node.parent):
+            category_node.parent.set_visit_state(VisitState.VISITED)
+            self.__propagate_visited_if_siblings_visited(category_node.parent)
+
+    @staticmethod
+    def __are_category_children_visited(category_node: Node):
+        for child in category_node.children:
+            if child.visit_state != VisitState.VISITED:
+                return False
+        return True
+
+    def __progress_to_next_category(self):
+        next_category = self.__spider_state.site_structure.find_leaf_with_visit_state(VisitState.NEW)
+        next_request = None
+        if next_category:
+            next_category.set_visit_state(VisitState.IN_PROGRESS, propagate=True)
+            self.__spider_state.current_page_url = next_category.url
+            self.__spider_state.current_page_site_path = next_category.get_path()
+            next_request = self.__site_pager.start(next_category.url)
+        self.__spider_state.save()
+        self.__spider_state.log()
+        return next_request</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>scrapy.spiders.Spider</li>
+<li>scrapy.utils.trackref.object_ref</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.request_factory"><code class="name">var <span class="ident">request_factory</span></code></dt>
+<dd>
+<section class="desc"><p>Instances of this class produces Scrapy requests. This is the default factory, which creates Scrapy Requests.
+Inherit from this class to create your own requests if needed (e.g. if you you use scrapy-selenium).</p></section>
+</dd>
+<dt id="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_url"><code class="name">var <span class="ident">start_url</span></code></dt>
+<dd>
+<section class="desc"></section>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.parse"><code class="name flex">
+<span>def <span class="ident">parse</span></span>(<span>self, response)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Not used since the underlying spiderlings will control requests processing.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse(self, response):
+    &#34;&#34;&#34;
+    Not used since the underlying spiderlings will control requests processing.
+    &#34;&#34;&#34;
+    yield None</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests"><code class="name flex">
+<span>def <span class="ident">start_requests</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>See Scrapy Spider start_requests()</p>
+<p>Returns: If saved progress exists, the next request to continue with, otherwise the starting request for site
+structure discovery.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start_requests(self) -&gt; Generator[Request, None, None]:
+    &#34;&#34;&#34;
+    See Scrapy Spider start_requests()
+
+    Returns: If saved progress exists, the next request to continue with, otherwise the starting request for site
+    structure discovery.
+    &#34;&#34;&#34;
+    # Must be created here because some attributes are available after from_crawler()
+    self.__site_pager = self.__create_site_pager()
+    if self.__spider_state.is_loaded:
+        yield self.__site_pager.start(self.__spider_state.current_page_url)
+    else:
+        site_discoverer = SiteStructureDiscoverer(self, self.start_url, self.__category_selectors,
+                                                  self.request_factory, self._on_site_structure_discovery_complete)
+        yield site_discoverer.create_start_request()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpiderData"><code class="flex name class">
+<span>class <span class="ident">CategoryBasedSpiderData</span></span>
+<span>(</span><span>progress_file_dir, name=None, start_url=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Stores data needed for category based spider.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>progress_file_dir</code></strong></dt>
+<dd>A path to a directory where the progress file will be stored</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Name of the spider (optional as it can be an attribute)</dd>
+<dt><strong><code>start_url</code></strong></dt>
+<dd>The starting URL (optional as it can be an attribute)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CategoryBasedSpiderData:
+    &#34;&#34;&#34;Stores data needed for category based spider.&#34;&#34;&#34;
+    def __init__(self, progress_file_dir: str, name: str = None, start_url: str = None):
+        &#34;&#34;&#34;
+        Args:
+            progress_file_dir: A path to a directory where the progress file will be stored
+            name: Name of the spider (optional as it can be an attribute)
+            start_url: The starting URL (optional as it can be an attribute)
+        &#34;&#34;&#34;
+        self.progress_file_dir = progress_file_dir
+        self.name = name
+        self.start_url = start_url</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="scrapy_patterns.spiders" href="index.html">scrapy_patterns.spiders</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider">CategoryBasedSpider</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.parse" href="#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.parse">parse</a></code></li>
+<li><code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.request_factory" href="#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.request_factory">request_factory</a></code></li>
+<li><code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests" href="#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests">start_requests</a></code></li>
+<li><code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_url" href="#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_url">start_url</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpiderData" href="#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpiderData">CategoryBasedSpiderData</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

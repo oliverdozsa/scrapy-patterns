@@ -1,0 +1,977 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>scrapy_patterns.site_structure API documentation</title>
+<meta name="description" content="Contains classes that are used to describe the structure of a site." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>scrapy_patterns.site_structure</code></h1>
+</header>
+<section id="section-intro">
+<p>Contains classes that are used to describe the structure of a site.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Contains classes that are used to describe the structure of a site.&#34;&#34;&#34;
+from enum import Enum
+from typing import Optional, List, Union
+
+
+class VisitState(Enum):
+    &#34;&#34;&#34;Visit state of a category (node)&#34;&#34;&#34;
+    NEW = 0
+    IN_PROGRESS = 1
+    VISITED = 2
+
+
+class Node:
+    &#34;&#34;&#34;
+    The node (category). Most sites are built around categories, which in turn can contain sub-categories, etc...
+    Therefore the structure of a site is represented as a tree.
+    Attributes:
+        name (str): The name of the node.
+        url (str): The url at which the node (category) is available.
+        parent (Node): The parent of the node.
+        visit_state (VisitState): The visit state of the node. Default value is VisitState.NEW
+        children (List[Node]): Children of node. Default value is an empty list.
+    &#34;&#34;&#34;
+
+    def __init__(self, name: str, url: str, parent: &#39;Node&#39; = None):
+        &#34;&#34;&#34;
+        Args:
+            name: The name of the node
+            url: The url at which the node (category) is available.
+            parent: The node&#39;s parent.
+        &#34;&#34;&#34;
+        self.name = name
+        self.url = url
+        self.visit_state = VisitState.NEW
+        self.children: List[Node] = []
+        self.parent: Node = parent
+
+    def get_path(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns: The path of the node separated by slashes (/), excluding the name of the root node. Paths consists of
+        the names of the nodes.
+        &#34;&#34;&#34;
+        if self.parent is None:
+            return &#34;&#34;
+        else:
+            return self.parent.get_path() + &#34;/&#34; + self.name
+
+    def to_dict(self):
+        &#34;&#34;&#34;
+        Returns: A dict representation of the tree rooted at this node.
+        &#34;&#34;&#34;
+        node_dict = {&#34;name&#34;: self.name, &#34;url&#34;: self.url, &#34;visit_state&#34;: self.visit_state.name, &#34;children&#34;: []}
+        if self.children:
+            children = [node.to_dict() for node in self.children]
+            node_dict.update({&#34;children&#34;: children})
+        return node_dict
+
+    @classmethod
+    def from_dict(cls, node_dict: dict):
+        &#34;&#34;&#34;
+        Construct a tree from its dict representation.
+        Args:
+            node_dict: The dict representation.
+
+        Returns: The restored tree.
+        &#34;&#34;&#34;
+        name = node_dict[&#34;name&#34;]
+        url = node_dict[&#34;url&#34;]
+        visit_state = VisitState[node_dict[&#34;visit_state&#34;]]
+        node = Node(name, url)
+        node.visit_state = visit_state
+        if node_dict[&#34;children&#34;]:
+            for child_dict in node_dict[&#34;children&#34;]:
+                child_node = Node.from_dict(child_dict)
+                child_node.parent = node
+                node.children.append(child_node)
+        return node
+
+    def set_visit_state(self, visit_state: VisitState, propagate: bool = False):
+        &#34;&#34;&#34;
+        Sets the visit state of this node optionally propagating it to ancestors.
+        Args:
+            visit_state: The new state.
+            propagate: Whether to propagate to ancestors.
+        &#34;&#34;&#34;
+        self.visit_state = visit_state
+        if self.parent and propagate:
+            self.parent.set_visit_state(visit_state, propagate)
+
+
+class SiteStructure:
+    &#34;&#34;&#34;
+    Handles the nodes of the structure.
+    Attributes:
+        root_node (Node): The root node.
+    &#34;&#34;&#34;
+
+    def __init__(self, name=&#34;&#34;):
+        &#34;&#34;&#34;
+        Creates the structure with a root node initialized to the given name prefixed with &#39;(root) &#39;.
+        Args:
+            name: The name of the root node. (The root node doesn&#39;t have an url)
+        &#34;&#34;&#34;
+        self.root_node = Node(&#34;(root) %s&#34; % name, &#34;&#34;)
+
+    def add_node_with_path(self, path: str, url: str):
+        &#34;&#34;&#34;
+        Adds a new node with url under path, where the name of the new node will be the last part of the path.
+        Nodes along the path should pre-exists except for the last node.
+        Args:
+            path (str): The path.
+            url (str): The url.
+
+        Returns: The newly created node.
+        &#34;&#34;&#34;
+        if self.get_node_at_path(path) is not None:
+            raise RuntimeError(&#34;Path \&#34;%s\&#34; already exists!&#34; % path)
+        used_path = path.strip(&#34;/&#34;)
+        node_names = self.__split_path(used_path)
+        children = self.root_node.children
+        parent = self.root_node
+        if len(node_names) &gt; 1:
+            parent_path = &#34;/&#34;.join(node_names[:-1])
+            existing = self.get_node_at_path(parent_path)
+            if existing:
+                parent = existing
+                children = existing.children
+            else:
+                raise RuntimeError(&#34;Parent path \&#34;%s\&#34; not existing!&#34; % parent_path)
+        new_node_name = node_names[-1]
+        node = Node(new_node_name, url, parent)
+        children.append(node)
+        return node
+
+    def get_node_at_path(self, path: str) -&gt; Node:
+        &#34;&#34;&#34;
+        Gets a node at path.
+        Args:
+            path (str): The path
+
+        Returns: The node if found, else None.
+        &#34;&#34;&#34;
+        children = self.root_node.children
+        result_node = None
+        used_path = path.strip(&#34;/&#34;)
+        for node_name in self.__split_path(used_path):
+            result_node = self.__find_node(node_name, children)
+            if result_node is None:
+                break
+            children = result_node.children
+        return result_node
+
+    def to_dict(self):
+        &#34;&#34;&#34;
+        Returns: The structure as a dict.
+        &#34;&#34;&#34;
+        return self.root_node.to_dict()
+
+    @classmethod
+    def from_dict(cls, struct_dict):
+        &#34;&#34;&#34;
+        Creates a structure from its dict representation.
+        Args:
+            struct_dict: The dict.
+
+        Returns: The site structure.
+        &#34;&#34;&#34;
+        structure = SiteStructure()
+        structure.root_node = Node.from_dict(struct_dict)
+        return structure
+
+    def find_leaf_with_visit_state(self, visit_state: Union[VisitState, List[VisitState]]) -&gt; Optional[Node]:
+        &#34;&#34;&#34;
+        Finds a leaf node with matching visit state(s). Search is DFS.
+        Args:
+            visit_state: Either a VisitState, or list of VisitStates. If a list, a match is found when any of the
+            list&#39;s element matches.
+
+        Returns: The first matching node if found, else None.
+
+        &#34;&#34;&#34;
+        if visit_state is None:
+            raise TypeError(&#34;Visit state cannot be none&#34;)
+        if isinstance(visit_state, list) and not visit_state:
+            raise ValueError(&#34;Visit states is empty!&#34;)
+        return self.__find_leaf_with_visit_state(visit_state, self.root_node)
+
+    def __str__(self):
+        return &#34;\n&#34;.join(self.__create_log_msg_records(self.root_node))
+
+    def __find_leaf_with_visit_state(self, visit_state: Union[VisitState, List[VisitState]], node: Node):
+        is_leaf = len(node.children) == 0
+        if is_leaf and self.__visit_state_matches(visit_state, node):
+            return node
+        for child in node.children:
+            descendant_match = self.__find_leaf_with_visit_state(visit_state, child)
+            if descendant_match:
+                return descendant_match
+        return None
+
+    @staticmethod
+    def __visit_state_matches(visit_state, node):
+        if isinstance(visit_state, list):
+            return node.visit_state in visit_state
+        else:
+            return node.visit_state == visit_state
+
+    @staticmethod
+    def __find_node(name, nodes):
+        for node in nodes:
+            if node.name == name:
+                return node
+        return None
+
+    @staticmethod
+    def __split_path(path):
+        return path.split(&#34;/&#34;)
+
+    def __create_log_msg_records(self, node: Node, prefix=&#34;&#34;):
+        records = []
+        is_root = node.parent is None
+        has_sibling = self.__has_sibling(node)
+        node_prefix = self.__create_node_prefix(is_root, has_sibling)
+        node_prefix = prefix + node_prefix
+        log_msg_record = self.__create_single_log_msg_record(node, node_prefix)
+        records.append(log_msg_record)
+        carry_on_prefix = self.__create_carry_on_prefix(is_root, has_sibling)
+        carry_on_prefix = prefix + carry_on_prefix
+        for child in node.children:
+            records.extend(self.__create_log_msg_records(child, carry_on_prefix))
+        return records
+
+    @staticmethod
+    def __create_single_log_msg_record(node, node_prefix):
+        is_root = node.parent is None
+        if is_root:
+            return node.name
+        else:
+            return &#34;%s[%s] %s (%s)&#34; % (node_prefix, node.visit_state.name, node.name, node.url)
+
+    @staticmethod
+    def __has_sibling(child):
+        if child and child.parent:
+            return child.parent.children[-1].name != child.name
+        return None
+
+    @staticmethod
+    def __create_node_prefix(is_root, has_sibling):
+        if is_root:
+            return &#34;&#34;
+        if has_sibling:
+            return &#34;├── &#34;
+        else:
+            return &#34;└── &#34;
+
+    @staticmethod
+    def __create_carry_on_prefix(is_root, has_sibling):
+        if is_root:
+            return &#34;&#34;
+        if has_sibling:
+            return &#34;|   &#34;
+        else:
+            return &#34;    &#34;</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="scrapy_patterns.site_structure.Node"><code class="flex name class">
+<span>class <span class="ident">Node</span></span>
+<span>(</span><span>name, url, parent=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>The node (category). Most sites are built around categories, which in turn can contain sub-categories, etc&hellip;
+Therefore the structure of a site is represented as a tree.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the node.</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url at which the node (category) is available.</dd>
+<dt><strong><code>parent</code></strong> :&ensp;<a title="scrapy_patterns.site_structure.Node" href="#scrapy_patterns.site_structure.Node"><code>Node</code></a></dt>
+<dd>The parent of the node.</dd>
+<dt><strong><code>visit_state</code></strong> :&ensp;<a title="scrapy_patterns.site_structure.VisitState" href="#scrapy_patterns.site_structure.VisitState"><code>VisitState</code></a></dt>
+<dd>The visit state of the node. Default value is VisitState.NEW</dd>
+<dt><strong><code>children</code></strong> :&ensp;<code>List</code>[<code>Node</code>]</dt>
+<dd>Children of node. Default value is an empty list.</dd>
+</dl>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The name of the node</dd>
+<dt><strong><code>url</code></strong></dt>
+<dd>The url at which the node (category) is available.</dd>
+<dt><strong><code>parent</code></strong></dt>
+<dd>The node's parent.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Node:
+    &#34;&#34;&#34;
+    The node (category). Most sites are built around categories, which in turn can contain sub-categories, etc...
+    Therefore the structure of a site is represented as a tree.
+    Attributes:
+        name (str): The name of the node.
+        url (str): The url at which the node (category) is available.
+        parent (Node): The parent of the node.
+        visit_state (VisitState): The visit state of the node. Default value is VisitState.NEW
+        children (List[Node]): Children of node. Default value is an empty list.
+    &#34;&#34;&#34;
+
+    def __init__(self, name: str, url: str, parent: &#39;Node&#39; = None):
+        &#34;&#34;&#34;
+        Args:
+            name: The name of the node
+            url: The url at which the node (category) is available.
+            parent: The node&#39;s parent.
+        &#34;&#34;&#34;
+        self.name = name
+        self.url = url
+        self.visit_state = VisitState.NEW
+        self.children: List[Node] = []
+        self.parent: Node = parent
+
+    def get_path(self) -&gt; str:
+        &#34;&#34;&#34;
+        Returns: The path of the node separated by slashes (/), excluding the name of the root node. Paths consists of
+        the names of the nodes.
+        &#34;&#34;&#34;
+        if self.parent is None:
+            return &#34;&#34;
+        else:
+            return self.parent.get_path() + &#34;/&#34; + self.name
+
+    def to_dict(self):
+        &#34;&#34;&#34;
+        Returns: A dict representation of the tree rooted at this node.
+        &#34;&#34;&#34;
+        node_dict = {&#34;name&#34;: self.name, &#34;url&#34;: self.url, &#34;visit_state&#34;: self.visit_state.name, &#34;children&#34;: []}
+        if self.children:
+            children = [node.to_dict() for node in self.children]
+            node_dict.update({&#34;children&#34;: children})
+        return node_dict
+
+    @classmethod
+    def from_dict(cls, node_dict: dict):
+        &#34;&#34;&#34;
+        Construct a tree from its dict representation.
+        Args:
+            node_dict: The dict representation.
+
+        Returns: The restored tree.
+        &#34;&#34;&#34;
+        name = node_dict[&#34;name&#34;]
+        url = node_dict[&#34;url&#34;]
+        visit_state = VisitState[node_dict[&#34;visit_state&#34;]]
+        node = Node(name, url)
+        node.visit_state = visit_state
+        if node_dict[&#34;children&#34;]:
+            for child_dict in node_dict[&#34;children&#34;]:
+                child_node = Node.from_dict(child_dict)
+                child_node.parent = node
+                node.children.append(child_node)
+        return node
+
+    def set_visit_state(self, visit_state: VisitState, propagate: bool = False):
+        &#34;&#34;&#34;
+        Sets the visit state of this node optionally propagating it to ancestors.
+        Args:
+            visit_state: The new state.
+            propagate: Whether to propagate to ancestors.
+        &#34;&#34;&#34;
+        self.visit_state = visit_state
+        if self.parent and propagate:
+            self.parent.set_visit_state(visit_state, propagate)</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="scrapy_patterns.site_structure.Node.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>node_dict)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Construct a tree from its dict representation.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>node_dict</code></strong></dt>
+<dd>The dict representation.</dd>
+</dl>
+<p>Returns: The restored tree.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_dict(cls, node_dict: dict):
+    &#34;&#34;&#34;
+    Construct a tree from its dict representation.
+    Args:
+        node_dict: The dict representation.
+
+    Returns: The restored tree.
+    &#34;&#34;&#34;
+    name = node_dict[&#34;name&#34;]
+    url = node_dict[&#34;url&#34;]
+    visit_state = VisitState[node_dict[&#34;visit_state&#34;]]
+    node = Node(name, url)
+    node.visit_state = visit_state
+    if node_dict[&#34;children&#34;]:
+        for child_dict in node_dict[&#34;children&#34;]:
+            child_node = Node.from_dict(child_dict)
+            child_node.parent = node
+            node.children.append(child_node)
+    return node</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.site_structure.Node.get_path"><code class="name flex">
+<span>def <span class="ident">get_path</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns: The path of the node separated by slashes (/), excluding the name of the root node. Paths consists of
+the names of the nodes.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_path(self) -&gt; str:
+    &#34;&#34;&#34;
+    Returns: The path of the node separated by slashes (/), excluding the name of the root node. Paths consists of
+    the names of the nodes.
+    &#34;&#34;&#34;
+    if self.parent is None:
+        return &#34;&#34;
+    else:
+        return self.parent.get_path() + &#34;/&#34; + self.name</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.site_structure.Node.set_visit_state"><code class="name flex">
+<span>def <span class="ident">set_visit_state</span></span>(<span>self, visit_state, propagate=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sets the visit state of this node optionally propagating it to ancestors.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>visit_state</code></strong></dt>
+<dd>The new state.</dd>
+<dt><strong><code>propagate</code></strong></dt>
+<dd>Whether to propagate to ancestors.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_visit_state(self, visit_state: VisitState, propagate: bool = False):
+    &#34;&#34;&#34;
+    Sets the visit state of this node optionally propagating it to ancestors.
+    Args:
+        visit_state: The new state.
+        propagate: Whether to propagate to ancestors.
+    &#34;&#34;&#34;
+    self.visit_state = visit_state
+    if self.parent and propagate:
+        self.parent.set_visit_state(visit_state, propagate)</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.site_structure.Node.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns: A dict representation of the tree rooted at this node.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self):
+    &#34;&#34;&#34;
+    Returns: A dict representation of the tree rooted at this node.
+    &#34;&#34;&#34;
+    node_dict = {&#34;name&#34;: self.name, &#34;url&#34;: self.url, &#34;visit_state&#34;: self.visit_state.name, &#34;children&#34;: []}
+    if self.children:
+        children = [node.to_dict() for node in self.children]
+        node_dict.update({&#34;children&#34;: children})
+    return node_dict</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="scrapy_patterns.site_structure.SiteStructure"><code class="flex name class">
+<span>class <span class="ident">SiteStructure</span></span>
+<span>(</span><span>name='')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Handles the nodes of the structure.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>root_node</code></strong> :&ensp;<a title="scrapy_patterns.site_structure.Node" href="#scrapy_patterns.site_structure.Node"><code>Node</code></a></dt>
+<dd>The root node.</dd>
+</dl>
+<p>Creates the structure with a root node initialized to the given name prefixed with '(root) '.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>The name of the root node. (The root node doesn't have an url)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SiteStructure:
+    &#34;&#34;&#34;
+    Handles the nodes of the structure.
+    Attributes:
+        root_node (Node): The root node.
+    &#34;&#34;&#34;
+
+    def __init__(self, name=&#34;&#34;):
+        &#34;&#34;&#34;
+        Creates the structure with a root node initialized to the given name prefixed with &#39;(root) &#39;.
+        Args:
+            name: The name of the root node. (The root node doesn&#39;t have an url)
+        &#34;&#34;&#34;
+        self.root_node = Node(&#34;(root) %s&#34; % name, &#34;&#34;)
+
+    def add_node_with_path(self, path: str, url: str):
+        &#34;&#34;&#34;
+        Adds a new node with url under path, where the name of the new node will be the last part of the path.
+        Nodes along the path should pre-exists except for the last node.
+        Args:
+            path (str): The path.
+            url (str): The url.
+
+        Returns: The newly created node.
+        &#34;&#34;&#34;
+        if self.get_node_at_path(path) is not None:
+            raise RuntimeError(&#34;Path \&#34;%s\&#34; already exists!&#34; % path)
+        used_path = path.strip(&#34;/&#34;)
+        node_names = self.__split_path(used_path)
+        children = self.root_node.children
+        parent = self.root_node
+        if len(node_names) &gt; 1:
+            parent_path = &#34;/&#34;.join(node_names[:-1])
+            existing = self.get_node_at_path(parent_path)
+            if existing:
+                parent = existing
+                children = existing.children
+            else:
+                raise RuntimeError(&#34;Parent path \&#34;%s\&#34; not existing!&#34; % parent_path)
+        new_node_name = node_names[-1]
+        node = Node(new_node_name, url, parent)
+        children.append(node)
+        return node
+
+    def get_node_at_path(self, path: str) -&gt; Node:
+        &#34;&#34;&#34;
+        Gets a node at path.
+        Args:
+            path (str): The path
+
+        Returns: The node if found, else None.
+        &#34;&#34;&#34;
+        children = self.root_node.children
+        result_node = None
+        used_path = path.strip(&#34;/&#34;)
+        for node_name in self.__split_path(used_path):
+            result_node = self.__find_node(node_name, children)
+            if result_node is None:
+                break
+            children = result_node.children
+        return result_node
+
+    def to_dict(self):
+        &#34;&#34;&#34;
+        Returns: The structure as a dict.
+        &#34;&#34;&#34;
+        return self.root_node.to_dict()
+
+    @classmethod
+    def from_dict(cls, struct_dict):
+        &#34;&#34;&#34;
+        Creates a structure from its dict representation.
+        Args:
+            struct_dict: The dict.
+
+        Returns: The site structure.
+        &#34;&#34;&#34;
+        structure = SiteStructure()
+        structure.root_node = Node.from_dict(struct_dict)
+        return structure
+
+    def find_leaf_with_visit_state(self, visit_state: Union[VisitState, List[VisitState]]) -&gt; Optional[Node]:
+        &#34;&#34;&#34;
+        Finds a leaf node with matching visit state(s). Search is DFS.
+        Args:
+            visit_state: Either a VisitState, or list of VisitStates. If a list, a match is found when any of the
+            list&#39;s element matches.
+
+        Returns: The first matching node if found, else None.
+
+        &#34;&#34;&#34;
+        if visit_state is None:
+            raise TypeError(&#34;Visit state cannot be none&#34;)
+        if isinstance(visit_state, list) and not visit_state:
+            raise ValueError(&#34;Visit states is empty!&#34;)
+        return self.__find_leaf_with_visit_state(visit_state, self.root_node)
+
+    def __str__(self):
+        return &#34;\n&#34;.join(self.__create_log_msg_records(self.root_node))
+
+    def __find_leaf_with_visit_state(self, visit_state: Union[VisitState, List[VisitState]], node: Node):
+        is_leaf = len(node.children) == 0
+        if is_leaf and self.__visit_state_matches(visit_state, node):
+            return node
+        for child in node.children:
+            descendant_match = self.__find_leaf_with_visit_state(visit_state, child)
+            if descendant_match:
+                return descendant_match
+        return None
+
+    @staticmethod
+    def __visit_state_matches(visit_state, node):
+        if isinstance(visit_state, list):
+            return node.visit_state in visit_state
+        else:
+            return node.visit_state == visit_state
+
+    @staticmethod
+    def __find_node(name, nodes):
+        for node in nodes:
+            if node.name == name:
+                return node
+        return None
+
+    @staticmethod
+    def __split_path(path):
+        return path.split(&#34;/&#34;)
+
+    def __create_log_msg_records(self, node: Node, prefix=&#34;&#34;):
+        records = []
+        is_root = node.parent is None
+        has_sibling = self.__has_sibling(node)
+        node_prefix = self.__create_node_prefix(is_root, has_sibling)
+        node_prefix = prefix + node_prefix
+        log_msg_record = self.__create_single_log_msg_record(node, node_prefix)
+        records.append(log_msg_record)
+        carry_on_prefix = self.__create_carry_on_prefix(is_root, has_sibling)
+        carry_on_prefix = prefix + carry_on_prefix
+        for child in node.children:
+            records.extend(self.__create_log_msg_records(child, carry_on_prefix))
+        return records
+
+    @staticmethod
+    def __create_single_log_msg_record(node, node_prefix):
+        is_root = node.parent is None
+        if is_root:
+            return node.name
+        else:
+            return &#34;%s[%s] %s (%s)&#34; % (node_prefix, node.visit_state.name, node.name, node.url)
+
+    @staticmethod
+    def __has_sibling(child):
+        if child and child.parent:
+            return child.parent.children[-1].name != child.name
+        return None
+
+    @staticmethod
+    def __create_node_prefix(is_root, has_sibling):
+        if is_root:
+            return &#34;&#34;
+        if has_sibling:
+            return &#34;├── &#34;
+        else:
+            return &#34;└── &#34;
+
+    @staticmethod
+    def __create_carry_on_prefix(is_root, has_sibling):
+        if is_root:
+            return &#34;&#34;
+        if has_sibling:
+            return &#34;|   &#34;
+        else:
+            return &#34;    &#34;</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="scrapy_patterns.site_structure.SiteStructure.from_dict"><code class="name flex">
+<span>def <span class="ident">from_dict</span></span>(<span>struct_dict)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates a structure from its dict representation.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>struct_dict</code></strong></dt>
+<dd>The dict.</dd>
+</dl>
+<p>Returns: The site structure.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_dict(cls, struct_dict):
+    &#34;&#34;&#34;
+    Creates a structure from its dict representation.
+    Args:
+        struct_dict: The dict.
+
+    Returns: The site structure.
+    &#34;&#34;&#34;
+    structure = SiteStructure()
+    structure.root_node = Node.from_dict(struct_dict)
+    return structure</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.site_structure.SiteStructure.add_node_with_path"><code class="name flex">
+<span>def <span class="ident">add_node_with_path</span></span>(<span>self, path, url)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Adds a new node with url under path, where the name of the new node will be the last part of the path.
+Nodes along the path should pre-exists except for the last node.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path.</dd>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The url.</dd>
+</dl>
+<p>Returns: The newly created node.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_node_with_path(self, path: str, url: str):
+    &#34;&#34;&#34;
+    Adds a new node with url under path, where the name of the new node will be the last part of the path.
+    Nodes along the path should pre-exists except for the last node.
+    Args:
+        path (str): The path.
+        url (str): The url.
+
+    Returns: The newly created node.
+    &#34;&#34;&#34;
+    if self.get_node_at_path(path) is not None:
+        raise RuntimeError(&#34;Path \&#34;%s\&#34; already exists!&#34; % path)
+    used_path = path.strip(&#34;/&#34;)
+    node_names = self.__split_path(used_path)
+    children = self.root_node.children
+    parent = self.root_node
+    if len(node_names) &gt; 1:
+        parent_path = &#34;/&#34;.join(node_names[:-1])
+        existing = self.get_node_at_path(parent_path)
+        if existing:
+            parent = existing
+            children = existing.children
+        else:
+            raise RuntimeError(&#34;Parent path \&#34;%s\&#34; not existing!&#34; % parent_path)
+    new_node_name = node_names[-1]
+    node = Node(new_node_name, url, parent)
+    children.append(node)
+    return node</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.site_structure.SiteStructure.find_leaf_with_visit_state"><code class="name flex">
+<span>def <span class="ident">find_leaf_with_visit_state</span></span>(<span>self, visit_state)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Finds a leaf node with matching visit state(s). Search is DFS.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>visit_state</code></strong></dt>
+<dd>Either a VisitState, or list of VisitStates. If a list, a match is found when any of the</dd>
+</dl>
+<p>list's element matches.
+Returns: The first matching node if found, else None.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find_leaf_with_visit_state(self, visit_state: Union[VisitState, List[VisitState]]) -&gt; Optional[Node]:
+    &#34;&#34;&#34;
+    Finds a leaf node with matching visit state(s). Search is DFS.
+    Args:
+        visit_state: Either a VisitState, or list of VisitStates. If a list, a match is found when any of the
+        list&#39;s element matches.
+
+    Returns: The first matching node if found, else None.
+
+    &#34;&#34;&#34;
+    if visit_state is None:
+        raise TypeError(&#34;Visit state cannot be none&#34;)
+    if isinstance(visit_state, list) and not visit_state:
+        raise ValueError(&#34;Visit states is empty!&#34;)
+    return self.__find_leaf_with_visit_state(visit_state, self.root_node)</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.site_structure.SiteStructure.get_node_at_path"><code class="name flex">
+<span>def <span class="ident">get_node_at_path</span></span>(<span>self, path)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Gets a node at path.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>path</code></strong> :&ensp;<code>str</code></dt>
+<dd>The path</dd>
+</dl>
+<p>Returns: The node if found, else None.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_node_at_path(self, path: str) -&gt; Node:
+    &#34;&#34;&#34;
+    Gets a node at path.
+    Args:
+        path (str): The path
+
+    Returns: The node if found, else None.
+    &#34;&#34;&#34;
+    children = self.root_node.children
+    result_node = None
+    used_path = path.strip(&#34;/&#34;)
+    for node_name in self.__split_path(used_path):
+        result_node = self.__find_node(node_name, children)
+        if result_node is None:
+            break
+        children = result_node.children
+    return result_node</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.site_structure.SiteStructure.to_dict"><code class="name flex">
+<span>def <span class="ident">to_dict</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns: The structure as a dict.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_dict(self):
+    &#34;&#34;&#34;
+    Returns: The structure as a dict.
+    &#34;&#34;&#34;
+    return self.root_node.to_dict()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="scrapy_patterns.site_structure.VisitState"><code class="flex name class">
+<span>class <span class="ident">VisitState</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Visit state of a category (node)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class VisitState(Enum):
+    &#34;&#34;&#34;Visit state of a category (node)&#34;&#34;&#34;
+    NEW = 0
+    IN_PROGRESS = 1
+    VISITED = 2</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="scrapy_patterns.site_structure.VisitState.IN_PROGRESS"><code class="name">var <span class="ident">IN_PROGRESS</span></code></dt>
+<dd>
+<section class="desc"><p>Visit state of a category (node)</p></section>
+</dd>
+<dt id="scrapy_patterns.site_structure.VisitState.NEW"><code class="name">var <span class="ident">NEW</span></code></dt>
+<dd>
+<section class="desc"><p>Visit state of a category (node)</p></section>
+</dd>
+<dt id="scrapy_patterns.site_structure.VisitState.VISITED"><code class="name">var <span class="ident">VISITED</span></code></dt>
+<dd>
+<section class="desc"><p>Visit state of a category (node)</p></section>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="scrapy_patterns" href="index.html">scrapy_patterns</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="scrapy_patterns.site_structure.Node" href="#scrapy_patterns.site_structure.Node">Node</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.site_structure.Node.from_dict" href="#scrapy_patterns.site_structure.Node.from_dict">from_dict</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.Node.get_path" href="#scrapy_patterns.site_structure.Node.get_path">get_path</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.Node.set_visit_state" href="#scrapy_patterns.site_structure.Node.set_visit_state">set_visit_state</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.Node.to_dict" href="#scrapy_patterns.site_structure.Node.to_dict">to_dict</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.site_structure.SiteStructure" href="#scrapy_patterns.site_structure.SiteStructure">SiteStructure</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.site_structure.SiteStructure.add_node_with_path" href="#scrapy_patterns.site_structure.SiteStructure.add_node_with_path">add_node_with_path</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.SiteStructure.find_leaf_with_visit_state" href="#scrapy_patterns.site_structure.SiteStructure.find_leaf_with_visit_state">find_leaf_with_visit_state</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.SiteStructure.from_dict" href="#scrapy_patterns.site_structure.SiteStructure.from_dict">from_dict</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.SiteStructure.get_node_at_path" href="#scrapy_patterns.site_structure.SiteStructure.get_node_at_path">get_node_at_path</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.SiteStructure.to_dict" href="#scrapy_patterns.site_structure.SiteStructure.to_dict">to_dict</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.site_structure.VisitState" href="#scrapy_patterns.site_structure.VisitState">VisitState</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.site_structure.VisitState.IN_PROGRESS" href="#scrapy_patterns.site_structure.VisitState.IN_PROGRESS">IN_PROGRESS</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.VisitState.NEW" href="#scrapy_patterns.site_structure.VisitState.NEW">NEW</a></code></li>
+<li><code><a title="scrapy_patterns.site_structure.VisitState.VISITED" href="#scrapy_patterns.site_structure.VisitState.VISITED">VISITED</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

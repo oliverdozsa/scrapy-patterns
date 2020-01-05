@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>scrapy_patterns.spiderlings.site_pager API documentation</title>
+<meta name="description" content="Contains the site pager spiderling." />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>scrapy_patterns.spiderlings.site_pager</code></h1>
+</header>
+<section id="section-intro">
+<p>Contains the site pager spiderling.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Contains the site pager spiderling.&#34;&#34;&#34;
+import logging
+from typing import List, Union, Tuple, Callable
+
+from scrapy import Spider, Item, signals, exceptions, Request
+from scrapy.http import Response
+from scrapy_patterns.request_factory import RequestFactory
+
+
+class ItemParser:
+    &#34;&#34;&#34;An interface used for parsing items from a response&#34;&#34;&#34;
+
+    def parse(self, response: Response) -&gt; Item:
+        &#34;&#34;&#34;
+        Args:
+            response: The response.
+
+        Returns: The item.
+        &#34;&#34;&#34;
+        raise NotImplementedError()
+
+
+class ItemUrlsParser:
+    &#34;&#34;&#34;Interface used for parsing item urls from a response (typically from a page)&#34;&#34;&#34;
+
+    def parse(self, response: Response) -&gt; Union[List[str], List[Tuple[str, dict]]]:
+        &#34;&#34;&#34;
+        Args:
+            response (Response): The scrapy response
+
+        Returns: Either the list of item URLs, or a list of tuples, where the first element is the item URL, and the
+        second element is a dict that will be passed as kwargs to the Request constructor.
+        &#34;&#34;&#34;
+        raise NotImplementedError()
+
+
+class NextPageUrlParser:
+    &#34;&#34;&#34;Interface used for parsing the URL of the next page&#34;&#34;&#34;
+
+    def has_next(self, response: Response) -&gt; bool:
+        &#34;&#34;&#34;
+        Checks whether the response contains a next page URL.
+        Args:
+            response (Response): The response.
+
+        Returns: True if there&#39;s a next page, False otherwise.
+        &#34;&#34;&#34;
+        raise NotImplementedError()
+
+    def parse(self, response: Response) -&gt; Union[str, Tuple[str, dict]]:
+        &#34;&#34;&#34;
+        Parses the URL of the next page.
+        Args:
+            response (Response): The response.
+
+        Returns: Either the next page&#39;s URL, or a tuple, where the first element is the next page&#39;s URL, and the
+        second element is a dict that will be passed as kwargs to the Request constructor.
+        &#34;&#34;&#34;
+        raise NotImplementedError()
+
+
+class SitePageParsers:
+    &#34;&#34;&#34;Groups parsers.&#34;&#34;&#34;
+    def __init__(self, next_page_url: NextPageUrlParser, item_urls: ItemUrlsParser, item: ItemParser):
+        &#34;&#34;&#34;
+        Args:
+            next_page_url (NextPageUrlParser): Next page URL parser
+            item_urls (ItemUrlsParser): Item URLs parser
+            item (ItemParser): Item parser.
+        &#34;&#34;&#34;
+        self.next_page_url = next_page_url
+        self.item_urls = item_urls
+        self.item = item
+
+
+class SitePageCallbacks:
+    &#34;&#34;&#34;Callbacks for paging events.&#34;&#34;&#34;
+    def __init__(self, on_paging_finished: Callable = None, on_page_finished: Callable = None):
+        &#34;&#34;&#34;
+        Args:
+            on_paging_finished: Called when paging is finished. Callback receives no parameter.
+            on_page_finished:  Called when a page is finished. Callback gets the URL of the next page.
+        &#34;&#34;&#34;
+        self.on_paging_finished = on_paging_finished if on_page_finished else self.__do_nothing_callback
+        self.on_page_finished = on_page_finished if on_page_finished else self.__do_nothing_callback
+
+    def __do_nothing_callback(self, *args):
+        pass
+
+
+class SitePager:
+    &#34;&#34;&#34;From the given start URL, it goes through its pages and parses items.&#34;&#34;&#34;
+    def __init__(self, spider: Spider, request_factory: RequestFactory,
+                 site_page_parsers: SitePageParsers, site_page_callback: SitePageCallbacks = None):
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.__request_factory = request_factory
+        self.__next_page_data = _NextPageData()
+        self.__items_counter = _ItemsCounter()
+        self.__site_page_callbacks = site_page_callback if site_page_callback else SitePageCallbacks()
+        self.__site_page_parsers = site_page_parsers
+        self.name = spider.name  # Needed to conform to Scrapy Spiders.
+        spider.crawler.signals.connect(self.__spider_idle, signal=signals.spider_idle)
+
+    def start(self, start_page_url: str) -&gt; Request:
+        &#34;&#34;&#34;
+        Creates the starting request, and resets the pager. This request should be returned from spiders.
+        start() can be used multiple times, but only when paging is finished!
+        Args:
+            start_page_url: The url of the start page.
+
+        Returns: The starting request.
+        &#34;&#34;&#34;
+        self.__next_page_data = _NextPageData()
+        self.__items_counter = _ItemsCounter()
+        return self.__request_factory.create(start_page_url, self.__process_page)
+
+    def __process_page(self, response):
+        self.__items_counter.success = 0
+        self.__items_counter.failed = 0
+        if self.__site_page_parsers.next_page_url.has_next(response):
+            self.logger.info(&#34;[%s] Has next page.&#34;, self.name)
+            url_data = self.__site_page_parsers.next_page_url.parse(response)
+            self.__set_next_page_data(url_data)
+        else:
+            self.logger.info(&#34;[%s] No more pages.&#34;, self.name)
+            self.__next_page_data.url = None
+            self.__next_page_data.req_kwargs = {}
+        item_requests = self.__create_next_item_requests(response)
+        self.__items_counter.total = len(item_requests)
+        for req in item_requests:
+            yield req
+
+    def __create_next_item_requests(self, page):
+        urls = self.__site_page_parsers.item_urls.parse(page)
+        requests = []
+        for url_data in urls:
+            url = url_data
+            req_kwargs = {}
+            if isinstance(url_data, tuple):
+                url = url_data[0]
+                req_kwargs = url_data[1]
+            requests.append(
+                self.__request_factory.create(
+                    url, self.__process_item, errback=self.__process_item_failure, **req_kwargs)
+            )
+        return requests
+
+    def __process_item(self, response):
+        yield self.__site_page_parsers.item.parse(response)
+        self.__items_counter.success += 1
+        yield self.__on_item_event()
+
+    def __process_item_failure(self, _):
+        self.logger.warning(&#34;[%s] Failed to get an item!&#34;, self.name)
+        self.__items_counter.failed += 1
+
+    def __on_item_event(self):
+        progress = self.__items_counter.success + self.__items_counter.failed
+        self.logger.info(&#34;[%s] Item progress in current page: %3d [OK] / %3d [FAILED] / %3d [TOTAL]&#34;,
+                         self.name, self.__items_counter.success, self.__items_counter.failed,
+                         self.__items_counter.total)
+        if progress == self.__items_counter.total:
+            self.logger.info(&#34;[%s] All items processed in current page. Checking if there&#39;s more work to do.&#34;,
+                             self.name)
+            if self.__next_page_data.url:
+                self.logger.info(&#34;[%s] Going to next page&#34;, self.name)
+                self.__site_page_callbacks.on_page_finished(self.__next_page_data.url)
+                return self.__request_factory.create(
+                    self.__next_page_data.url, self.__process_page, **self.__next_page_data.req_kwargs)
+            else:
+                self.logger.info(&#34;[%s] No more pages.&#34;, self.name)
+                return self.__site_page_callbacks.on_paging_finished()
+        return None
+
+    def __spider_idle(self, spider):
+        # It happens when the last item request fails.
+        self.logger.warning(&#34;Got spider idle!&#34;)
+        next_req = self.__on_item_event()
+        if next_req:
+            # The request has to be &#39;manually&#39; inserted.
+            spider.crawler.engine.crawl(next_req, spider)
+            raise exceptions.DontCloseSpider(&#34;Got spider idle, but there&#39;s more work to do!&#34;)
+
+    def __set_next_page_data(self, url_data):
+        if isinstance(url_data, tuple):
+            self.__next_page_data.url = url_data[0]
+            self.__next_page_data.req_kwargs = url_data[1]
+        else:
+            self.__next_page_data.url = url_data
+
+
+class _ItemsCounter:
+    def __init__(self):
+        self.total = 0
+        self.success = 0
+        self.failed = 0
+
+
+class _NextPageData:
+    def __init__(self):
+        self.url = None
+        self.req_kwargs = {}</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_pager.ItemParser"><code class="flex name class">
+<span>class <span class="ident">ItemParser</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>An interface used for parsing items from a response</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ItemParser:
+    &#34;&#34;&#34;An interface used for parsing items from a response&#34;&#34;&#34;
+
+    def parse(self, response: Response) -&gt; Item:
+        &#34;&#34;&#34;
+        Args:
+            response: The response.
+
+        Returns: The item.
+        &#34;&#34;&#34;
+        raise NotImplementedError()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_pager.ItemParser.parse"><code class="name flex">
+<span>def <span class="ident">parse</span></span>(<span>self, response)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>response</code></strong></dt>
+<dd>The response.</dd>
+</dl>
+<p>Returns: The item.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse(self, response: Response) -&gt; Item:
+    &#34;&#34;&#34;
+    Args:
+        response: The response.
+
+    Returns: The item.
+    &#34;&#34;&#34;
+    raise NotImplementedError()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser"><code class="flex name class">
+<span>class <span class="ident">ItemUrlsParser</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Interface used for parsing item urls from a response (typically from a page)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ItemUrlsParser:
+    &#34;&#34;&#34;Interface used for parsing item urls from a response (typically from a page)&#34;&#34;&#34;
+
+    def parse(self, response: Response) -&gt; Union[List[str], List[Tuple[str, dict]]]:
+        &#34;&#34;&#34;
+        Args:
+            response (Response): The scrapy response
+
+        Returns: Either the list of item URLs, or a list of tuples, where the first element is the item URL, and the
+        second element is a dict that will be passed as kwargs to the Request constructor.
+        &#34;&#34;&#34;
+        raise NotImplementedError()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser.parse"><code class="name flex">
+<span>def <span class="ident">parse</span></span>(<span>self, response)</span>
+</code></dt>
+<dd>
+<section class="desc"><h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>response</code></strong> :&ensp;<code>Response</code></dt>
+<dd>The scrapy response</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>Either</code> <code>the</code> <code>list</code> of <code>item</code> <code>URLs</code>, or <code>a</code> <code>list</code> of <code>tuples</code>, <code>where</code> <code>the</code> <code>first</code> <code>element</code> <code>is</code> <code>the</code> <code>item</code> <code>URL</code>, <code>and</code> <code>the</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>second element is a dict that will be passed as kwargs to the Request constructor.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse(self, response: Response) -&gt; Union[List[str], List[Tuple[str, dict]]]:
+    &#34;&#34;&#34;
+    Args:
+        response (Response): The scrapy response
+
+    Returns: Either the list of item URLs, or a list of tuples, where the first element is the item URL, and the
+    second element is a dict that will be passed as kwargs to the Request constructor.
+    &#34;&#34;&#34;
+    raise NotImplementedError()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser"><code class="flex name class">
+<span>class <span class="ident">NextPageUrlParser</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Interface used for parsing the URL of the next page</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NextPageUrlParser:
+    &#34;&#34;&#34;Interface used for parsing the URL of the next page&#34;&#34;&#34;
+
+    def has_next(self, response: Response) -&gt; bool:
+        &#34;&#34;&#34;
+        Checks whether the response contains a next page URL.
+        Args:
+            response (Response): The response.
+
+        Returns: True if there&#39;s a next page, False otherwise.
+        &#34;&#34;&#34;
+        raise NotImplementedError()
+
+    def parse(self, response: Response) -&gt; Union[str, Tuple[str, dict]]:
+        &#34;&#34;&#34;
+        Parses the URL of the next page.
+        Args:
+            response (Response): The response.
+
+        Returns: Either the next page&#39;s URL, or a tuple, where the first element is the next page&#39;s URL, and the
+        second element is a dict that will be passed as kwargs to the Request constructor.
+        &#34;&#34;&#34;
+        raise NotImplementedError()</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser.has_next"><code class="name flex">
+<span>def <span class="ident">has_next</span></span>(<span>self, response)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Checks whether the response contains a next page URL.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>response</code></strong> :&ensp;<code>Response</code></dt>
+<dd>The response.</dd>
+</dl>
+<p>Returns: True if there's a next page, False otherwise.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def has_next(self, response: Response) -&gt; bool:
+    &#34;&#34;&#34;
+    Checks whether the response contains a next page URL.
+    Args:
+        response (Response): The response.
+
+    Returns: True if there&#39;s a next page, False otherwise.
+    &#34;&#34;&#34;
+    raise NotImplementedError()</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser.parse"><code class="name flex">
+<span>def <span class="ident">parse</span></span>(<span>self, response)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Parses the URL of the next page.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>response</code></strong> :&ensp;<code>Response</code></dt>
+<dd>The response.</dd>
+<dt><strong><code>Returns</code></strong> :&ensp;<code>Either</code> <code>the</code> <code>next</code> <code>page's</code> <code>URL</code>, or <code>a</code> <code>tuple</code>, <code>where</code> <code>the</code> <code>first</code> <code>element</code> <code>is</code> <code>the</code> <code>next</code> <code>page's</code> <code>URL</code>, <code>and</code> <code>the</code></dt>
+<dd>&nbsp;</dd>
+</dl>
+<p>second element is a dict that will be passed as kwargs to the Request constructor.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parse(self, response: Response) -&gt; Union[str, Tuple[str, dict]]:
+    &#34;&#34;&#34;
+    Parses the URL of the next page.
+    Args:
+        response (Response): The response.
+
+    Returns: Either the next page&#39;s URL, or a tuple, where the first element is the next page&#39;s URL, and the
+    second element is a dict that will be passed as kwargs to the Request constructor.
+    &#34;&#34;&#34;
+    raise NotImplementedError()</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="scrapy_patterns.spiderlings.site_pager.SitePageCallbacks"><code class="flex name class">
+<span>class <span class="ident">SitePageCallbacks</span></span>
+<span>(</span><span>on_paging_finished=None, on_page_finished=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Callbacks for paging events.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>on_paging_finished</code></strong></dt>
+<dd>Called when paging is finished. Callback receives no parameter.</dd>
+<dt><strong><code>on_page_finished</code></strong></dt>
+<dd>Called when a page is finished. Callback gets the URL of the next page.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SitePageCallbacks:
+    &#34;&#34;&#34;Callbacks for paging events.&#34;&#34;&#34;
+    def __init__(self, on_paging_finished: Callable = None, on_page_finished: Callable = None):
+        &#34;&#34;&#34;
+        Args:
+            on_paging_finished: Called when paging is finished. Callback receives no parameter.
+            on_page_finished:  Called when a page is finished. Callback gets the URL of the next page.
+        &#34;&#34;&#34;
+        self.on_paging_finished = on_paging_finished if on_page_finished else self.__do_nothing_callback
+        self.on_page_finished = on_page_finished if on_page_finished else self.__do_nothing_callback
+
+    def __do_nothing_callback(self, *args):
+        pass</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.spiderlings.site_pager.SitePageParsers"><code class="flex name class">
+<span>class <span class="ident">SitePageParsers</span></span>
+<span>(</span><span>next_page_url, item_urls, item)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Groups parsers.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>next_page_url</code></strong> :&ensp;<a title="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser" href="#scrapy_patterns.spiderlings.site_pager.NextPageUrlParser"><code>NextPageUrlParser</code></a></dt>
+<dd>Next page URL parser</dd>
+<dt><strong><code>item_urls</code></strong> :&ensp;<a title="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser" href="#scrapy_patterns.spiderlings.site_pager.ItemUrlsParser"><code>ItemUrlsParser</code></a></dt>
+<dd>Item URLs parser</dd>
+<dt><strong><code>item</code></strong> :&ensp;<a title="scrapy_patterns.spiderlings.site_pager.ItemParser" href="#scrapy_patterns.spiderlings.site_pager.ItemParser"><code>ItemParser</code></a></dt>
+<dd>Item parser.</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SitePageParsers:
+    &#34;&#34;&#34;Groups parsers.&#34;&#34;&#34;
+    def __init__(self, next_page_url: NextPageUrlParser, item_urls: ItemUrlsParser, item: ItemParser):
+        &#34;&#34;&#34;
+        Args:
+            next_page_url (NextPageUrlParser): Next page URL parser
+            item_urls (ItemUrlsParser): Item URLs parser
+            item (ItemParser): Item parser.
+        &#34;&#34;&#34;
+        self.next_page_url = next_page_url
+        self.item_urls = item_urls
+        self.item = item</code></pre>
+</details>
+</dd>
+<dt id="scrapy_patterns.spiderlings.site_pager.SitePager"><code class="flex name class">
+<span>class <span class="ident">SitePager</span></span>
+<span>(</span><span>spider, request_factory, site_page_parsers, site_page_callback=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>From the given start URL, it goes through its pages and parses items.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SitePager:
+    &#34;&#34;&#34;From the given start URL, it goes through its pages and parses items.&#34;&#34;&#34;
+    def __init__(self, spider: Spider, request_factory: RequestFactory,
+                 site_page_parsers: SitePageParsers, site_page_callback: SitePageCallbacks = None):
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.__request_factory = request_factory
+        self.__next_page_data = _NextPageData()
+        self.__items_counter = _ItemsCounter()
+        self.__site_page_callbacks = site_page_callback if site_page_callback else SitePageCallbacks()
+        self.__site_page_parsers = site_page_parsers
+        self.name = spider.name  # Needed to conform to Scrapy Spiders.
+        spider.crawler.signals.connect(self.__spider_idle, signal=signals.spider_idle)
+
+    def start(self, start_page_url: str) -&gt; Request:
+        &#34;&#34;&#34;
+        Creates the starting request, and resets the pager. This request should be returned from spiders.
+        start() can be used multiple times, but only when paging is finished!
+        Args:
+            start_page_url: The url of the start page.
+
+        Returns: The starting request.
+        &#34;&#34;&#34;
+        self.__next_page_data = _NextPageData()
+        self.__items_counter = _ItemsCounter()
+        return self.__request_factory.create(start_page_url, self.__process_page)
+
+    def __process_page(self, response):
+        self.__items_counter.success = 0
+        self.__items_counter.failed = 0
+        if self.__site_page_parsers.next_page_url.has_next(response):
+            self.logger.info(&#34;[%s] Has next page.&#34;, self.name)
+            url_data = self.__site_page_parsers.next_page_url.parse(response)
+            self.__set_next_page_data(url_data)
+        else:
+            self.logger.info(&#34;[%s] No more pages.&#34;, self.name)
+            self.__next_page_data.url = None
+            self.__next_page_data.req_kwargs = {}
+        item_requests = self.__create_next_item_requests(response)
+        self.__items_counter.total = len(item_requests)
+        for req in item_requests:
+            yield req
+
+    def __create_next_item_requests(self, page):
+        urls = self.__site_page_parsers.item_urls.parse(page)
+        requests = []
+        for url_data in urls:
+            url = url_data
+            req_kwargs = {}
+            if isinstance(url_data, tuple):
+                url = url_data[0]
+                req_kwargs = url_data[1]
+            requests.append(
+                self.__request_factory.create(
+                    url, self.__process_item, errback=self.__process_item_failure, **req_kwargs)
+            )
+        return requests
+
+    def __process_item(self, response):
+        yield self.__site_page_parsers.item.parse(response)
+        self.__items_counter.success += 1
+        yield self.__on_item_event()
+
+    def __process_item_failure(self, _):
+        self.logger.warning(&#34;[%s] Failed to get an item!&#34;, self.name)
+        self.__items_counter.failed += 1
+
+    def __on_item_event(self):
+        progress = self.__items_counter.success + self.__items_counter.failed
+        self.logger.info(&#34;[%s] Item progress in current page: %3d [OK] / %3d [FAILED] / %3d [TOTAL]&#34;,
+                         self.name, self.__items_counter.success, self.__items_counter.failed,
+                         self.__items_counter.total)
+        if progress == self.__items_counter.total:
+            self.logger.info(&#34;[%s] All items processed in current page. Checking if there&#39;s more work to do.&#34;,
+                             self.name)
+            if self.__next_page_data.url:
+                self.logger.info(&#34;[%s] Going to next page&#34;, self.name)
+                self.__site_page_callbacks.on_page_finished(self.__next_page_data.url)
+                return self.__request_factory.create(
+                    self.__next_page_data.url, self.__process_page, **self.__next_page_data.req_kwargs)
+            else:
+                self.logger.info(&#34;[%s] No more pages.&#34;, self.name)
+                return self.__site_page_callbacks.on_paging_finished()
+        return None
+
+    def __spider_idle(self, spider):
+        # It happens when the last item request fails.
+        self.logger.warning(&#34;Got spider idle!&#34;)
+        next_req = self.__on_item_event()
+        if next_req:
+            # The request has to be &#39;manually&#39; inserted.
+            spider.crawler.engine.crawl(next_req, spider)
+            raise exceptions.DontCloseSpider(&#34;Got spider idle, but there&#39;s more work to do!&#34;)
+
+    def __set_next_page_data(self, url_data):
+        if isinstance(url_data, tuple):
+            self.__next_page_data.url = url_data[0]
+            self.__next_page_data.req_kwargs = url_data[1]
+        else:
+            self.__next_page_data.url = url_data</code></pre>
+</details>
+<h3>Methods</h3>
+<dl>
+<dt id="scrapy_patterns.spiderlings.site_pager.SitePager.start"><code class="name flex">
+<span>def <span class="ident">start</span></span>(<span>self, start_page_url)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Creates the starting request, and resets the pager. This request should be returned from spiders.
+start() can be used multiple times, but only when paging is finished!</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>start_page_url</code></strong></dt>
+<dd>The url of the start page.</dd>
+</dl>
+<p>Returns: The starting request.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start(self, start_page_url: str) -&gt; Request:
+    &#34;&#34;&#34;
+    Creates the starting request, and resets the pager. This request should be returned from spiders.
+    start() can be used multiple times, but only when paging is finished!
+    Args:
+        start_page_url: The url of the start page.
+
+    Returns: The starting request.
+    &#34;&#34;&#34;
+    self.__next_page_data = _NextPageData()
+    self.__items_counter = _ItemsCounter()
+    return self.__request_factory.create(start_page_url, self.__process_page)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="scrapy_patterns.spiderlings" href="index.html">scrapy_patterns.spiderlings</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_pager.ItemParser" href="#scrapy_patterns.spiderlings.site_pager.ItemParser">ItemParser</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.spiderlings.site_pager.ItemParser.parse" href="#scrapy_patterns.spiderlings.site_pager.ItemParser.parse">parse</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser" href="#scrapy_patterns.spiderlings.site_pager.ItemUrlsParser">ItemUrlsParser</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser.parse" href="#scrapy_patterns.spiderlings.site_pager.ItemUrlsParser.parse">parse</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser" href="#scrapy_patterns.spiderlings.site_pager.NextPageUrlParser">NextPageUrlParser</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser.has_next" href="#scrapy_patterns.spiderlings.site_pager.NextPageUrlParser.has_next">has_next</a></code></li>
+<li><code><a title="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser.parse" href="#scrapy_patterns.spiderlings.site_pager.NextPageUrlParser.parse">parse</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_pager.SitePageCallbacks" href="#scrapy_patterns.spiderlings.site_pager.SitePageCallbacks">SitePageCallbacks</a></code></h4>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_pager.SitePageParsers" href="#scrapy_patterns.spiderlings.site_pager.SitePageParsers">SitePageParsers</a></code></h4>
+</li>
+<li>
+<h4><code><a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="#scrapy_patterns.spiderlings.site_pager.SitePager">SitePager</a></code></h4>
+<ul class="">
+<li><code><a title="scrapy_patterns.spiderlings.site_pager.SitePager.start" href="#scrapy_patterns.spiderlings.site_pager.SitePager.start">start</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
