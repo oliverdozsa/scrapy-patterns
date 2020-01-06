@@ -16,7 +16,7 @@ this task easier by following those patterns.
 TODO
 
 ## Documentation
-TODO
+Can be found [here](https://oliverdozsa.github.io/scrapy-patterns/).
 
 ## Contribution
 Suggestions and contributions are very welcome :).

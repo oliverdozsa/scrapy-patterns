@@ -35,7 +35,7 @@ class ItemUrlsParser:
 
 
 class NextPageUrlParser:
-    """Interface used for parsing the URL of the next page"""
+    """Interface used for checking, and parsing the URL of the next page"""
 
     def has_next(self, response: Response) -> bool:
         """

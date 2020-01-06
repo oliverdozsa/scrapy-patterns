@@ -5,6 +5,7 @@ import logging
 from typing import Optional
 from scrapy_patterns.site_structure import SiteStructure
 
+
 # pylint: disable=too-many-instance-attributes
 class CategoryBasedSpiderState:
     """The class holding the state."""
