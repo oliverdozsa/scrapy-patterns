@@ -62,7 +62,7 @@ class ItemUrlsParser:
 
 
 class NextPageUrlParser:
-    &#34;&#34;&#34;Interface used for parsing the URL of the next page&#34;&#34;&#34;
+    &#34;&#34;&#34;Interface used for checking, and parsing the URL of the next page&#34;&#34;&#34;
 
     def has_next(self, response: Response) -&gt; bool:
         &#34;&#34;&#34;
@@ -347,13 +347,13 @@ class _NextPageData:
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<section class="desc"><p>Interface used for parsing the URL of the next page</p></section>
+<section class="desc"><p>Interface used for checking, and parsing the URL of the next page</p></section>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class NextPageUrlParser:
-    &#34;&#34;&#34;Interface used for parsing the URL of the next page&#34;&#34;&#34;
+    &#34;&#34;&#34;Interface used for checking, and parsing the URL of the next page&#34;&#34;&#34;
 
     def has_next(self, response: Response) -&gt; bool:
         &#34;&#34;&#34;

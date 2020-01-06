@@ -34,7 +34,26 @@ spiderlings / spiders. They provide one functionality, like going through a list
 Following is a description of currently existing spiderlings.</p>
 <h4 id="site-pager">Site Pager</h4>
 <p>The <a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager"><code>SitePager</code></a> class can be used for going through a pageable part of a website.
-TODO</p>
+It needs 3 user given objects to do its job:</p>
+<ul>
+<li>
+<p><a title="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.NextPageUrlParser"><code>NextPageUrlParser</code></a>:
+Its responsibility is to checks whether the current page has a link for the next page, and how to extract it.</p>
+</li>
+<li>
+<p><a title="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.ItemUrlsParser"><code>ItemUrlsParser</code></a>:
+Should return the URL of items found on the page.</p>
+</li>
+<li>
+<p><a title="scrapy_patterns.spiderlings.site_pager.ItemParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.ItemParser"><code>ItemParser</code></a>:
+Should return a Scrapy <a href="https://docs.scrapy.org/en/latest/topics/items.html#scrapy.item.Item">Item</a> from the URLs
+returned by ItemUrlsParser.</p>
+</li>
+</ul>
+<p>So to use <a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager"><code>SitePager</code></a>, you implement the above mentioned 3 interfaces, wrap it in
+<a title="scrapy_patterns.spiderlings.site_pager.SitePageParsers" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePageParsers"><code>SitePageParsers</code></a>, pass it to SitePager's constructor, and then call (yield)
+<a title="scrapy_patterns.spiderlings.site_pager.SitePager.start" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager.start"><code>SitePager.start()</code></a>, which will produce a request with which the scraping will continue.
+You can find an example for usage in <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider"><code>CategoryBasedSpider</code></a>.</p>
 <h4 id="site-structure-discoverer">Site Structure Discoverer</h4>
 <p>TODO</p>
 <details class="source">
