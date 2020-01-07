@@ -59,7 +59,8 @@ class SiteStructureDiscoverer:
         Args:
             spider: The spider to which this belongs.
             start_url: Starting URL of categories.
-            category_parsers: List of category parsers for each level of categories.
+            category_parsers: List of category parsers for each level of categories. The last element in the list should
+                              parse the leaf categories.
             request_factory: The request factory.
             on_discovery_complete: An optional callback when the discovery is complete. It&#39;ll receive this discoverer
             as its argument. It should return a scrapy request to continue the scraping with.
@@ -211,7 +212,8 @@ class SiteStructureDiscoverer:
 <dt><strong><code>start_url</code></strong></dt>
 <dd>Starting URL of categories.</dd>
 <dt><strong><code>category_parsers</code></strong></dt>
-<dd>List of category parsers for each level of categories.</dd>
+<dd>List of category parsers for each level of categories. The last element in the list should
+parse the leaf categories.</dd>
 <dt><strong><code>request_factory</code></strong></dt>
 <dd>The request factory.</dd>
 <dt><strong><code>on_discovery_complete</code></strong></dt>
@@ -232,7 +234,8 @@ class SiteStructureDiscoverer:
         Args:
             spider: The spider to which this belongs.
             start_url: Starting URL of categories.
-            category_parsers: List of category parsers for each level of categories.
+            category_parsers: List of category parsers for each level of categories. The last element in the list should
+                              parse the leaf categories.
             request_factory: The request factory.
             on_discovery_complete: An optional callback when the discovery is complete. It&#39;ll receive this discoverer
             as its argument. It should return a scrapy request to continue the scraping with.

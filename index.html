@@ -55,7 +55,35 @@ returned by ItemUrlsParser.</p>
 <a title="scrapy_patterns.spiderlings.site_pager.SitePager.start" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager.start"><code>SitePager.start()</code></a>, which will produce a request with which the scraping will continue.
 You can find an example for usage in <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider"><code>CategoryBasedSpider</code></a>.</p>
 <h4 id="site-structure-discoverer">Site Structure Discoverer</h4>
-<p>TODO</p>
+<p><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a> can read the hierarchy of a site. For example,
+a site may have main categories, each of them can have sub-categories and sub-categories could have further sub-categories,
+and so on. <a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a> will parse this structure into a
+<a title="scrapy_patterns.site_structure.SiteStructure" href="site_structure.html#scrapy_patterns.site_structure.SiteStructure"><code>SiteStructure</code></a> which is basically a tree, which then can be processed further.
+<a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a> only needs information about how to extract
+the different levels of categories. This can be done through implementing a <a title="scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser"><code>CategoryParser</code></a>,
+for each level, and then pass a list of them to
+<a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a>.
+The last element in the list should parse the leaf categories, which won't be processed further. This means, that if the
+site you want to scrape has only main categories, the list should contain one element only, if there are sub-categories,
+there should be two parsers, etc. Each parser get a response from the level above (the first element will get a starting URL
+response).<br>
+You can find an example for usage in <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider"><code>CategoryBasedSpider</code></a>.</p>
+<h3 id="spiders">Spiders</h3>
+<h4 id="category-based-spider">Category Based Spider</h4>
+<p>Combines <a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a>
+and
+<a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager"><code>SitePager</code></a> to scrape sites that are based on categories, sub-categories, sub-sub-categories,
+etc. and where leaf categories point to a pageable part of site from which items can be extracted. <br>
+This spider also keeps track of its state which is saved at regular checkpoints. Upon restarting the spider,
+if progress file exists scraping will continue (from the last saved page). This progress-saving mechanism has limitations
+compared to <a href="https://docs.scrapy.org/en/latest/topics/jobs.html">Scrapy's pausing</a>, like it won't continue exactly
+where it left off, but it has the advantage that requests doesn't have to be serializable. <strong>Because of the nature of
+this mechanism, some URLs will be processed twice, resulting in possible duplicate items. You should keep this in mind
+when processing them.</strong><br>
+To use it inherit your spiders from it similarly how you inherit from Scrapy spiders, but also providing a starting URL,
+and rest of the needed data. You don't need to call <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests"><code>CategoryBasedSpider.start_requests()</code></a>
+as it will be handled by Scrapy. When the spider starts, it'll check whether a progress file exists, and if yes it will
+continue based on it. Otherwise it starts site structure discovering.</p>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -102,6 +130,10 @@ You can find an example for usage in <a title="scrapy_patterns.spiders.category_
 <li><a href="#spiderlings">Spiderlings</a><ul>
 <li><a href="#site-pager">Site Pager</a></li>
 <li><a href="#site-structure-discoverer">Site Structure Discoverer</a></li>
+</ul>
+</li>
+<li><a href="#spiders">Spiders</a><ul>
+<li><a href="#category-based-spider">Category Based Spider</a></li>
 </ul>
 </li>
 </ul>
