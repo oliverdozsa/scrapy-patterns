@@ -7,13 +7,13 @@
 Scraping websites can be cumbersome, but many of them are built around patterns. The goal of this library is to make
 this task easier by following those patterns.
 
-**The library is currently work-in-progress!**
-
 ## Requirements
 * Python 3.6+
 
 ## Install
-TODO
+```
+$ pip install scrapy-patterns
+```
 
 ## Documentation
 Can be found [here](https://oliverdozsa.github.io/scrapy-patterns/).
