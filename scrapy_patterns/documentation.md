@@ -53,7 +53,7 @@ if progress file exists scraping will continue (from the last saved page). This 
 compared to [Scrapy's pausing](https://docs.scrapy.org/en/latest/topics/jobs.html), like it won't continue exactly
 where it left off, but it has the advantage that requests doesn't have to be serializable. **Because of the nature of
 this mechanism, some URLs will be processed twice, resulting in possible duplicate items. You should keep this in mind
-when processing them.**  
+when processing them.** (Duplicate items could anyway occur since an item could belong to multiple categories.)  
 To use it inherit your spiders from it similarly how you inherit from Scrapy spiders, but also providing a starting URL, 
 and rest of the needed data. You don't need to call `scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests`
 as it will be handled by Scrapy. When the spider starts, it'll check whether a progress file exists, and if yes it will
