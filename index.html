@@ -79,7 +79,7 @@ if progress file exists scraping will continue (from the last saved page). This 
 compared to <a href="https://docs.scrapy.org/en/latest/topics/jobs.html">Scrapy's pausing</a>, like it won't continue exactly
 where it left off, but it has the advantage that requests doesn't have to be serializable. <strong>Because of the nature of
 this mechanism, some URLs will be processed twice, resulting in possible duplicate items. You should keep this in mind
-when processing them.</strong><br>
+when processing them.</strong> (Duplicate items could anyway occur since an item could belong to multiple categories.)<br>
 To use it inherit your spiders from it similarly how you inherit from Scrapy spiders, but also providing a starting URL,
 and rest of the needed data. You don't need to call <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests"><code>CategoryBasedSpider.start_requests()</code></a>
 as it will be handled by Scrapy. When the spider starts, it'll check whether a progress file exists, and if yes it will
@@ -106,11 +106,11 @@ continue based on it. Otherwise it starts site structure discovering.</p>
 </dd>
 <dt><code class="name"><a title="scrapy_patterns.spiderlings" href="spiderlings/index.html">scrapy_patterns.spiderlings</a></code></dt>
 <dd>
-<section class="desc"><p>TODO</p></section>
+<section class="desc"><p>Contains spiderlings.</p></section>
 </dd>
 <dt><code class="name"><a title="scrapy_patterns.spiders" href="spiders/index.html">scrapy_patterns.spiders</a></code></dt>
 <dd>
-<section class="desc"><p>TODO</p></section>
+<section class="desc"><p>Contains spiders.</p></section>
 </dd>
 </dl>
 </section>
