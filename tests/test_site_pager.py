@@ -121,7 +121,7 @@ def __simulate_page_response_with_items(mock_req_factory: Mock, mock_site_parser
     mock_response = Mock()
     mock_site_parser.next_page_url.has_next.return_value = has_next_page
     mock_site_parser.next_page_url.parse.return_value = next_page_url
-    mock_site_parser.item_urls.parse.return_value = ["http://item%d.url" % (i + 1) for i in range(0, num_of_items)]
+    mock_site_parser.item_urls.parse.return_value = ["http://item{}.url".format(i + 1) for i in range(0, num_of_items)]
     return list(process_page_callback(mock_response))  # Next item URL request
 
 

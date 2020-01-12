@@ -101,7 +101,7 @@ class SiteStructure:
         Args:
             name: The name of the root node. (The root node doesn't have an url)
         """
-        self.root_node = Node("(root) %s" % name, "")
+        self.root_node = Node("(root) {}".format(name), "")
 
     def add_node_with_path(self, path: str, url: str):
         """
@@ -114,7 +114,7 @@ class SiteStructure:
         Returns: The newly created node.
         """
         if self.get_node_at_path(path) is not None:
-            raise RuntimeError("Path \"%s\" already exists!" % path)
+            raise RuntimeError("Path \"{}\" already exists!".format(path))
         used_path = path.strip("/")
         node_names = self.__split_path(used_path)
         children = self.root_node.children
@@ -126,7 +126,7 @@ class SiteStructure:
                 parent = existing
                 children = existing.children
             else:
-                raise RuntimeError("Parent path \"%s\" not existing!" % parent_path)
+                raise RuntimeError("Parent path \"{}\" not existing!".format(parent_path))
         new_node_name = node_names[-1]
         node = Node(new_node_name, url, parent)
         children.append(node)
@@ -236,7 +236,8 @@ class SiteStructure:
         if is_root:
             return node.name
         else:
-            return "%s[%s] %s (%s)" % (node_prefix, node.visit_state.name, node.name, node.url)
+            return "{node_prefix}[{visit_state}] {node_name} ({node_url})".format(
+                node_prefix=node_prefix, visit_state=node.visit_state.name, node_name=node.name, node_url=node.url)
 
     @staticmethod
     def __has_sibling(child):

@@ -41,14 +41,14 @@ class CategoryBasedSpider(Spider):
             **kwargs: Keyword arguments passed to base Spider
         """
         if data is None:
-            raise ValueError("%s must have data" % type(self).__name__)
+            raise ValueError("{} must have data".format(type(self).__name__))
         super().__init__(data.name, **kwargs)
         if category_selectors is None:
-            raise ValueError("%s must have category selectors" % type(self).__name__)
+            raise ValueError("{} must have category selectors".format(type(self).__name__))
         if data.start_url is not None:
             self.start_url = data.start_url
         elif not getattr(self, "start_url", None):
-            raise ValueError("%s must have start URL" % type(self).__name__)
+            raise ValueError("{} must have start URL".format(type(self).__name__))
         self.__category_selectors = category_selectors
         self.__spider_state = CategoryBasedSpiderState(self.name, data.progress_file_dir)
         self.__site_page_parsers = site_page_parsers

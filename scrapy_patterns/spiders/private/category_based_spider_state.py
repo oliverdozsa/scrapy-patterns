@@ -28,7 +28,7 @@ class CategoryBasedSpiderState:
     def save(self):
         """Saves the state to the progress file."""
         if self.site_structure is None:
-            raise RuntimeError("[%s] Site structure doesn't exist!" % self.__spider_name)
+            raise RuntimeError("[{}] Site structure doesn't exist!".format(self.__spider_name))
         self.logger.info("[%s] Saving state.", self.__spider_name)
         if not os.path.isdir(self.__progress_file_dir):
             os.mkdir(self.__progress_file_dir)
