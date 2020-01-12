@@ -68,14 +68,14 @@ class CategoryBasedSpider(Spider):
             **kwargs: Keyword arguments passed to base Spider
         &#34;&#34;&#34;
         if data is None:
-            raise ValueError(&#34;%s must have data&#34; % type(self).__name__)
+            raise ValueError(&#34;{} must have data&#34;.format(type(self).__name__))
         super().__init__(data.name, **kwargs)
         if category_selectors is None:
-            raise ValueError(&#34;%s must have category selectors&#34; % type(self).__name__)
+            raise ValueError(&#34;{} must have category selectors&#34;.format(type(self).__name__))
         if data.start_url is not None:
             self.start_url = data.start_url
         elif not getattr(self, &#34;start_url&#34;, None):
-            raise ValueError(&#34;%s must have start URL&#34; % type(self).__name__)
+            raise ValueError(&#34;{} must have start URL&#34;.format(type(self).__name__))
         self.__category_selectors = category_selectors
         self.__spider_state = CategoryBasedSpiderState(self.name, data.progress_file_dir)
         self.__site_page_parsers = site_page_parsers
@@ -202,14 +202,14 @@ have main categories, with optional sub-categories, each leaf category pointing 
             **kwargs: Keyword arguments passed to base Spider
         &#34;&#34;&#34;
         if data is None:
-            raise ValueError(&#34;%s must have data&#34; % type(self).__name__)
+            raise ValueError(&#34;{} must have data&#34;.format(type(self).__name__))
         super().__init__(data.name, **kwargs)
         if category_selectors is None:
-            raise ValueError(&#34;%s must have category selectors&#34; % type(self).__name__)
+            raise ValueError(&#34;{} must have category selectors&#34;.format(type(self).__name__))
         if data.start_url is not None:
             self.start_url = data.start_url
         elif not getattr(self, &#34;start_url&#34;, None):
-            raise ValueError(&#34;%s must have start URL&#34; % type(self).__name__)
+            raise ValueError(&#34;{} must have start URL&#34;.format(type(self).__name__))
         self.__category_selectors = category_selectors
         self.__spider_state = CategoryBasedSpiderState(self.name, data.progress_file_dir)
         self.__site_page_parsers = site_page_parsers

@@ -128,7 +128,7 @@ class SiteStructure:
         Args:
             name: The name of the root node. (The root node doesn&#39;t have an url)
         &#34;&#34;&#34;
-        self.root_node = Node(&#34;(root) %s&#34; % name, &#34;&#34;)
+        self.root_node = Node(&#34;(root) {}&#34;.format(name), &#34;&#34;)
 
     def add_node_with_path(self, path: str, url: str):
         &#34;&#34;&#34;
@@ -141,7 +141,7 @@ class SiteStructure:
         Returns: The newly created node.
         &#34;&#34;&#34;
         if self.get_node_at_path(path) is not None:
-            raise RuntimeError(&#34;Path \&#34;%s\&#34; already exists!&#34; % path)
+            raise RuntimeError(&#34;Path \&#34;{}\&#34; already exists!&#34;.format(path))
         used_path = path.strip(&#34;/&#34;)
         node_names = self.__split_path(used_path)
         children = self.root_node.children
@@ -153,7 +153,7 @@ class SiteStructure:
                 parent = existing
                 children = existing.children
             else:
-                raise RuntimeError(&#34;Parent path \&#34;%s\&#34; not existing!&#34; % parent_path)
+                raise RuntimeError(&#34;Parent path \&#34;{}\&#34; not existing!&#34;.format(parent_path))
         new_node_name = node_names[-1]
         node = Node(new_node_name, url, parent)
         children.append(node)
@@ -263,7 +263,8 @@ class SiteStructure:
         if is_root:
             return node.name
         else:
-            return &#34;%s[%s] %s (%s)&#34; % (node_prefix, node.visit_state.name, node.name, node.url)
+            return &#34;{node_prefix}[{visit_state}] {node_name} ({node_url})&#34;.format(
+                node_prefix=node_prefix, visit_state=node.visit_state.name, node_name=node.name, node_url=node.url)
 
     @staticmethod
     def __has_sibling(child):
@@ -556,7 +557,7 @@ the names of the nodes.</p></section>
         Args:
             name: The name of the root node. (The root node doesn&#39;t have an url)
         &#34;&#34;&#34;
-        self.root_node = Node(&#34;(root) %s&#34; % name, &#34;&#34;)
+        self.root_node = Node(&#34;(root) {}&#34;.format(name), &#34;&#34;)
 
     def add_node_with_path(self, path: str, url: str):
         &#34;&#34;&#34;
@@ -569,7 +570,7 @@ the names of the nodes.</p></section>
         Returns: The newly created node.
         &#34;&#34;&#34;
         if self.get_node_at_path(path) is not None:
-            raise RuntimeError(&#34;Path \&#34;%s\&#34; already exists!&#34; % path)
+            raise RuntimeError(&#34;Path \&#34;{}\&#34; already exists!&#34;.format(path))
         used_path = path.strip(&#34;/&#34;)
         node_names = self.__split_path(used_path)
         children = self.root_node.children
@@ -581,7 +582,7 @@ the names of the nodes.</p></section>
                 parent = existing
                 children = existing.children
             else:
-                raise RuntimeError(&#34;Parent path \&#34;%s\&#34; not existing!&#34; % parent_path)
+                raise RuntimeError(&#34;Parent path \&#34;{}\&#34; not existing!&#34;.format(parent_path))
         new_node_name = node_names[-1]
         node = Node(new_node_name, url, parent)
         children.append(node)
@@ -691,7 +692,8 @@ the names of the nodes.</p></section>
         if is_root:
             return node.name
         else:
-            return &#34;%s[%s] %s (%s)&#34; % (node_prefix, node.visit_state.name, node.name, node.url)
+            return &#34;{node_prefix}[{visit_state}] {node_name} ({node_url})&#34;.format(
+                node_prefix=node_prefix, visit_state=node.visit_state.name, node_name=node.name, node_url=node.url)
 
     @staticmethod
     def __has_sibling(child):
@@ -780,7 +782,7 @@ Nodes along the path should pre-exists except for the last node.</p>
     Returns: The newly created node.
     &#34;&#34;&#34;
     if self.get_node_at_path(path) is not None:
-        raise RuntimeError(&#34;Path \&#34;%s\&#34; already exists!&#34; % path)
+        raise RuntimeError(&#34;Path \&#34;{}\&#34; already exists!&#34;.format(path))
     used_path = path.strip(&#34;/&#34;)
     node_names = self.__split_path(used_path)
     children = self.root_node.children
@@ -792,7 +794,7 @@ Nodes along the path should pre-exists except for the last node.</p>
             parent = existing
             children = existing.children
         else:
-            raise RuntimeError(&#34;Parent path \&#34;%s\&#34; not existing!&#34; % parent_path)
+            raise RuntimeError(&#34;Parent path \&#34;{}\&#34; not existing!&#34;.format(parent_path))
     new_node_name = node_names[-1]
     node = Node(new_node_name, url, parent)
     children.append(node)
