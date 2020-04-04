@@ -178,6 +178,7 @@ class SitePager:
         next_req = self.__on_item_event()
         if next_req:
             # The request has to be 'manually' inserted.
+            next_req.dont_filter = True
             spider.crawler.engine.crawl(next_req, spider)
             raise exceptions.DontCloseSpider("Got spider idle, but there's more work to do!")
 
