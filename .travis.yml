@@ -5,7 +5,6 @@ language: python
 python:
   - "3.6"
 install:
-  - pip install attrs==19.3.0
   - pip install -r requirements-test.txt
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
