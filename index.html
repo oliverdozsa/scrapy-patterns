@@ -3,23 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-<meta name="generator" content="pdoc 0.7.5" />
+<meta name="generator" content="pdoc 0.9.2" />
 <title>scrapy_patterns API documentation</title>
 <meta name="description" content="What is scrapy-patterns?
 It&#39;s a library for [Scrapy](https://scrapy.org/) to help implementing spiders quicker. How? Many websites are built
 around …" />
-<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
-<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
-<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
-<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
 <style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
 </head>
 <body>
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>scrapy_patterns</code></h1>
+<h1 class="title">Package <code>scrapy_patterns</code></h1>
 </header>
 <section id="section-intro">
 <h2 id="what-is-scrapy-patterns">What is scrapy-patterns?</h2>
@@ -33,46 +35,46 @@ extracting items, etc&hellip;).</p>
 spiderlings / spiders. They provide one functionality, like going through a list of pages from a given starting URL.
 Following is a description of currently existing spiderlings.</p>
 <h4 id="site-pager">Site Pager</h4>
-<p>The <a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager"><code>SitePager</code></a> class can be used for going through a pageable part of a website.
+<p>The <code><a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager">SitePager</a></code> class can be used for going through a pageable part of a website.
 It needs 3 user given objects to do its job:</p>
 <ul>
 <li>
-<p><a title="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.NextPageUrlParser"><code>NextPageUrlParser</code></a>:
+<p><code><a title="scrapy_patterns.spiderlings.site_pager.NextPageUrlParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.NextPageUrlParser">NextPageUrlParser</a></code>:
 Its responsibility is to checks whether the current page has a link for the next page, and how to extract it.</p>
 </li>
 <li>
-<p><a title="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.ItemUrlsParser"><code>ItemUrlsParser</code></a>:
+<p><code><a title="scrapy_patterns.spiderlings.site_pager.ItemUrlsParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.ItemUrlsParser">ItemUrlsParser</a></code>:
 Should return the URL of items found on the page.</p>
 </li>
 <li>
-<p><a title="scrapy_patterns.spiderlings.site_pager.ItemParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.ItemParser"><code>ItemParser</code></a>:
+<p><code><a title="scrapy_patterns.spiderlings.site_pager.ItemParser" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.ItemParser">ItemParser</a></code>:
 Should return a Scrapy <a href="https://docs.scrapy.org/en/latest/topics/items.html#scrapy.item.Item">Item</a> from the URLs
 returned by ItemUrlsParser.</p>
 </li>
 </ul>
-<p>So to use <a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager"><code>SitePager</code></a>, you implement the above mentioned 3 interfaces, wrap it in
-<a title="scrapy_patterns.spiderlings.site_pager.SitePageParsers" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePageParsers"><code>SitePageParsers</code></a>, pass it to SitePager's constructor, and then call (yield)
-<a title="scrapy_patterns.spiderlings.site_pager.SitePager.start" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager.start"><code>SitePager.start()</code></a>, which will produce a request with which the scraping will continue.
-You can find an example for usage in <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider"><code>CategoryBasedSpider</code></a>.</p>
+<p>So to use <code><a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager">SitePager</a></code>, you implement the above mentioned 3 interfaces, wrap it in
+<code><a title="scrapy_patterns.spiderlings.site_pager.SitePageParsers" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePageParsers">SitePageParsers</a></code>, pass it to SitePager's constructor, and then call (yield)
+<code><a title="scrapy_patterns.spiderlings.site_pager.SitePager.start" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager.start">SitePager.start()</a></code>, which will produce a request with which the scraping will continue.
+You can find an example for usage in <code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider">CategoryBasedSpider</a></code>.</p>
 <h4 id="site-structure-discoverer">Site Structure Discoverer</h4>
-<p><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a> can read the hierarchy of a site. For example,
+<p><code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer">SiteStructureDiscoverer</a></code> can read the hierarchy of a site. For example,
 a site may have main categories, each of them can have sub-categories and sub-categories could have further sub-categories,
-and so on. <a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a> will parse this structure into a
-<a title="scrapy_patterns.site_structure.SiteStructure" href="site_structure.html#scrapy_patterns.site_structure.SiteStructure"><code>SiteStructure</code></a> which is basically a tree, which then can be processed further.
-<a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a> only needs information about how to extract
-the different levels of categories. This can be done through implementing a <a title="scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser"><code>CategoryParser</code></a>,
+and so on. <code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer">SiteStructureDiscoverer</a></code> will parse this structure into a
+<code><a title="scrapy_patterns.site_structure.SiteStructure" href="site_structure.html#scrapy_patterns.site_structure.SiteStructure">SiteStructure</a></code> which is basically a tree, which then can be processed further.
+<code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer">SiteStructureDiscoverer</a></code> only needs information about how to extract
+the different levels of categories. This can be done through implementing a <code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.CategoryParser">CategoryParser</a></code>,
 for each level, and then pass a list of them to
-<a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a>.
+<code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer">SiteStructureDiscoverer</a></code>.
 The last element in the list should parse the leaf categories, which won't be processed further. This means, that if the
 site you want to scrape has only main categories, the list should contain one element only, if there are sub-categories,
 there should be two parsers, etc. Each parser get a response from the level above (the first element will get a starting URL
 response).<br>
-You can find an example for usage in <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider"><code>CategoryBasedSpider</code></a>.</p>
+You can find an example for usage in <code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider">CategoryBasedSpider</a></code>.</p>
 <h3 id="spiders">Spiders</h3>
 <h4 id="category-based-spider">Category Based Spider</h4>
-<p>Combines <a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer"><code>SiteStructureDiscoverer</code></a>
+<p>Combines <code><a title="scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer" href="spiderlings/site_structure_discoverer.html#scrapy_patterns.spiderlings.site_structure_discoverer.SiteStructureDiscoverer">SiteStructureDiscoverer</a></code>
 and
-<a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager"><code>SitePager</code></a> to scrape sites that are based on categories, sub-categories, sub-sub-categories,
+<code><a title="scrapy_patterns.spiderlings.site_pager.SitePager" href="spiderlings/site_pager.html#scrapy_patterns.spiderlings.site_pager.SitePager">SitePager</a></code> to scrape sites that are based on categories, sub-categories, sub-sub-categories,
 etc. and where leaf categories point to a pageable part of site from which items can be extracted. <br>
 This spider also keeps track of its state which is saved at regular checkpoints. Upon restarting the spider,
 if progress file exists scraping will continue (from the last saved page). This progress-saving mechanism has limitations
@@ -81,7 +83,7 @@ where it left off, but it has the advantage that requests doesn't have to be ser
 this mechanism, some URLs will be processed twice, resulting in possible duplicate items. You should keep this in mind
 when processing them.</strong> (Duplicate items could anyway occur since an item could belong to multiple categories.)<br>
 To use it inherit your spiders from it similarly how you inherit from Scrapy spiders, but also providing a starting URL,
-and rest of the needed data. You don't need to call <a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests"><code>CategoryBasedSpider.start_requests()</code></a>
+and rest of the needed data. You don't need to call <code><a title="scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests" href="spiders/category_based_spider.html#scrapy_patterns.spiders.category_based_spider.CategoryBasedSpider.start_requests">CategoryBasedSpider.start_requests()</a></code>
 as it will be handled by Scrapy. When the spider starts, it'll check whether a progress file exists, and if yes it will
 continue based on it. Otherwise it starts site structure discovering.</p>
 <details class="source">
@@ -98,19 +100,19 @@ continue based on it. Otherwise it starts site structure discovering.</p>
 <dl>
 <dt><code class="name"><a title="scrapy_patterns.request_factory" href="request_factory.html">scrapy_patterns.request_factory</a></code></dt>
 <dd>
-<section class="desc"><p>Contains the default request factory</p></section>
+<div class="desc"><p>Contains the default request factory</p></div>
 </dd>
 <dt><code class="name"><a title="scrapy_patterns.site_structure" href="site_structure.html">scrapy_patterns.site_structure</a></code></dt>
 <dd>
-<section class="desc"><p>Contains classes that are used to describe the structure of a site.</p></section>
+<div class="desc"><p>Contains classes that are used to describe the structure of a site.</p></div>
 </dd>
 <dt><code class="name"><a title="scrapy_patterns.spiderlings" href="spiderlings/index.html">scrapy_patterns.spiderlings</a></code></dt>
 <dd>
-<section class="desc"><p>Contains spiderlings.</p></section>
+<div class="desc"><p>Contains spiderlings.</p></div>
 </dd>
 <dt><code class="name"><a title="scrapy_patterns.spiders" href="spiders/index.html">scrapy_patterns.spiders</a></code></dt>
 <dd>
-<section class="desc"><p>Contains spiders.</p></section>
+<div class="desc"><p>Contains spiders.</p></div>
 </dd>
 </dl>
 </section>
@@ -153,9 +155,7 @@ continue based on it. Otherwise it starts site structure discovering.</p>
 </nav>
 </main>
 <footer id="footer">
-<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.5</a>.</p>
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
 </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-<script>hljs.initHighlightingOnLoad()</script>
 </body>
 </html>
